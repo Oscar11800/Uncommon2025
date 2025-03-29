@@ -2,7 +2,7 @@ import pyxel
 
 # Game Variables (Currently dummy values)
 BALL_SPEED = 1
-WINNING_HEIGHT = 100
+WINNING_HEIGHT = 25
 
 
 # block grid structure
