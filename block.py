@@ -17,7 +17,6 @@ class Direction(Enum):
 
 class Block:
     blocks_speed = 1 # speed of blocks falling
-    is_live = 1
 
     def __init__(self, type, location, rotation_state, color):
         self.type = type
@@ -25,6 +24,7 @@ class Block:
         y = location.y
         self.squares = [square.Square(x, y, grid.Grid.SQUARE_SIZE, color)]*4
         self.rotation_state = 0
+        self.is_live = 1
         match type:
             case BlockType.O:
                 self.squares[1].update(x + 1, y)
@@ -32,49 +32,44 @@ class Block:
                 self.squares[3].update(x + 1, y + 1)
                 self.originX = x + 0.5
                 self.originY = y + 0.5
-                return
             case BlockType.I:
                 self.squares[1].update(x + 1, y)
                 self.squares[2].update(x + 2, y)
                 self.squares[3].update(x + 3, y)
                 self.originX = x + 1.5
                 self.originY = y - 0.5
-                return
             case BlockType.S:
                 self.squares[1].update(x + 1, y)
                 self.squares[2].update(x + 1, y + 1)
                 self.squares[3].update(x + 2, y + 1)
                 self.originX = x + 1
                 self.originY = y
-                return
             case BlockType.Z:
                 self.squares[1].update(x + 1, y)
                 self.squares[2].update(x + 1, y - 1)
                 self.squares[3].update(x + 2, y - 1)
                 self.originX = x + 1
                 self.originY = y - 1
-                return
             case BlockType.L:
                 self.squares[1].update(x + 1, y)
                 self.squares[2].update(x + 2, y)
                 self.squares[3].update(x + 2, y + 1)
                 self.originX = x + 1
                 self.originY = y
-                return
             case BlockType.J:
                 self.squares[1].update(x, y - 1)
                 self.squares[2].update(x + 1, y - 1)
                 self.squares[3].update(x + 2, y - 1)
                 self.originX = x + 1
                 self.originY = y - 1
-                return
             case BlockType.T:
                 self.squares[1].update(x + 1, y)
                 self.squares[2].update(x + 1, y + 1)
                 self.squares[3].update(x + 2, y)
                 self.originX = x + 1
                 self.originY = y
-                return
+        
+        self.draw()
             
     def rotate_helper(self, x, y, s):
         x -= self.originX
