@@ -22,3 +22,17 @@ def calculate_adjacent_squares(x,y,grid):
     if x < len(grid) - 1 and (sq := grid[x+1][y] is not None) and not_inv(sq):
         ret[3] = True
     return ret
+
+def distance(x1, y1, x2, y2):
+    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+  
+# Return TRUE if vertical, FALSE is horizontal, 
+def horizontal_or_vertical_collision(x,y,u,v,size):
+    distances = [
+      (distance(u,v,x,y), 0),
+      (distance(u+size,v,x,y), 1),
+      (distance(u,v,x,y+size), 2),
+      (distance(u+size,v,x,y+size), 3),
+    ]
+    distances.sort()
+    return distances[0][1] % 2 == distances[1][1] % 2

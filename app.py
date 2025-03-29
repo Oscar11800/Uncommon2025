@@ -4,7 +4,7 @@ from square import Square
 from square_state import SquareState
 from ball import Ball
 from paddle import Paddle
-from utils import render_centered_text
+from utils import render_centered_text, horizontal_or_vertical_collision
 from grid import Grid
 
 # Game Settings (Currently dummy values)
@@ -74,8 +74,25 @@ class App:
     
     # Check/Fix Functions
     def check_collisions(self):
-       pass
-    def check_setblocks(self): # convert live blocks touching set blocks to set blocks, convert set blocks in row to invulnerable blocks, destroy set islands
+        active_grid = self.grid_left if self.game_ball.position[0] < self.w // 2 else self.grid_right
+        min_x, max_x = self.game_ball.position[0], self.game_ball.position[0] + self.game_ball.length
+        min_y, max_y = self.game_ball.position[1], self.game_ball.position[1] + self.game_ball.length
+        ball_cords = set([(i,j) for i in range(min_x, max_x) for j in range(min_y, max_y)])
+        for square in [square for row in active_grid for square in row]:
+            if square is not None:
+                sqr_x1, sqr_y1 = square.x, square.y
+                sqr_x2, sqr_y2 = square.x + square.size, square.y + square.size
+                square_cords = set([(i,j) for i in range(sqr_x1, sqr_x2) for j in range(sqr_y1, sqr_y2)])
+                if (overlap := ball_cords.intersection(square_cords)):
+                  intersect = list(overlap)[0]
+                  vertical_collision = horizontal_or_vertical_collision(
+                    self.game_ball.position[0], self.game_ball.position[1], 
+                    square.x, square.y, self.game_ball.length
+                  )
+                  print(here)
+                  
+                  
+    def check_setblocks(self):
        pass
     def win_con(self):
        pass
