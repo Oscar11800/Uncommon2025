@@ -38,6 +38,7 @@ class Square:
         # Calculate borders
         adjacent_squares = calculate_adjacent_squares(self.u, self.v, grid)
         border_color = Colors.TEAM_1_OUTER.value if self.team == 1 else Colors.TEAM_2_OUTER.value
+        # Borders
         if not adjacent_squares[0]:
             pyxel.rect(self.x, self.y, self.width, 1, border_color)
         if not adjacent_squares[1]:
@@ -46,7 +47,15 @@ class Square:
             pyxel.rect(self.x, self.y, 1, self.length, border_color)
         if not adjacent_squares[3]:
             pyxel.rect(self.x + self.width - 1, self.y, 1, self.length, border_color)
-        print(adjacent_squares)
+        # Corners
+        if adjacent_squares[0] and adjacent_squares[2]:
+            pyxel.pset(self.x, self.y, border_color)
+        if adjacent_squares[0] and adjacent_squares[3]:
+            pyxel.pset(self.x + self.width - 1, self.y, border_color)
+        if adjacent_squares[1] and adjacent_squares[2]:
+            pyxel.pset(self.x, self.y + self.length - 1, border_color)
+        if adjacent_squares[1] and adjacent_squares[3]:
+            pyxel.pset(self.x + self.width - 1, self.y + self.length - 1, border_color)
     
     def destroy(self):
         self.state = SquareState.DEAD
