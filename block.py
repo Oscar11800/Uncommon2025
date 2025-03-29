@@ -125,7 +125,7 @@ class Block:
             prev_y = self.squares[i].getY()
             self.squares[i].update(prev_x, prev_y - 1)
 
-            if (Grid[prev_x, prev_y - 1] != None):
+            if (grid.Grid[prev_x, prev_y - 1] != None):
                 self.is_live = 0
 
     def draw(self):
