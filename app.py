@@ -14,15 +14,16 @@ class App:
         # Config
         self.w = 192
         self.h = 108
-        self.square_size = self.w // 30
+        self.square_size = self.w // 25
+        print("Square size:", self.square_size)
         self.grid_width_in_squares = 6
         self.grid_height_in_squares = 20
-        self.platform_height = 3
+        self.platform_height = 2
         # Prepare for rendering
         self.platform_width = self.square_size * self.grid_width_in_squares
         self.platform_height = self.platform_height
-        self.platform_l_x = self.w * 0.05
-        self.platform_r_x = self.w * 0.95 - self.platform_width
+        self.platform_l_x = self.w * 0.025
+        self.platform_r_x = self.w * 0.975 - self.platform_width
         # Maintain state
         self.grid_left = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
         
@@ -33,7 +34,7 @@ class App:
     def update(self):
         if self.x == 0:
           self.grid_left[0][0] = self.make_square(0, 0)
-          self.grid_left[1][0] = self.make_square(1, 0)
+          self.grid_left[1][0] = self.make_square(2, 0)
         self.x = (self.x + 1) % pyxel.width
     def draw(self):
         pyxel.cls(0)
@@ -45,8 +46,8 @@ class App:
     def draw_game(self):
         pyxel.cls(6)
         # Draw static background
-        left_start = self.platform_l_x = self.w * 0.05
-        right_start = self.platform_r_x = self.w * 0.95 - self.platform_width
+        left_start = self.platform_l_x
+        right_start = self.platform_r_x
         platform_h = self.platform_height
         platform_w = self.platform_width
         pyxel.rect(left_start, self.h - platform_h, platform_w, platform_h, 1)
