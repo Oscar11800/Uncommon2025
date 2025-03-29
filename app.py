@@ -61,7 +61,7 @@ class App:
     # Check Functions
     def check_collisions(self):
        pass
-    def check_setblocks(self):
+    def check_setblocks(self): # convert live blocks touching set blocks to set blocks, convert set blocks in row to invulnerable blocks, destroy set islands
        pass
     def win_con(self):
        pass
