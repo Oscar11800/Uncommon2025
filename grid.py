@@ -40,6 +40,13 @@ class Grid:
         for square in self.grid()[x]:
             square.set_state(SquareState.INVINCIBLE)
     
+    def has_live(self):
+        for i in self.height:
+            for j in self.width:
+                if self.grid[i][j].get_state() == SquareState.LIVE:
+                    return True
+        return False
+    
     #return tuple of x and y on grid coordinates corresponding to pixel x,y
     def _pix_to_grid_space(self, pix_x, pix_y):
         # check pixel is within the grid
