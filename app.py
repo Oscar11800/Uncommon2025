@@ -44,6 +44,7 @@ class App:
         ball_init_pos = (ball_init_x, ball_init_y)
         self.game_ball = Ball(1, (0, 0), ball_init_pos, BALL_LENGTH)
 
+        # track index of each player in the list of block shapes
         self.player1_block_index = 0
         self.player2_block_index = 0
 
