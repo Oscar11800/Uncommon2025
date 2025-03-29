@@ -11,14 +11,14 @@ class SquareState(Enum):
 
 # A square is always a unit size in terms of the grid
 class Square:
-    def __init__(self, x, y, size, color):
+    def __init__(self, x, y, size, team):
         self.x = x
         self.y = y
         self.width = size
         self.length = size
         self.size = size # size is in terms of pixels
         self.state = SquareState.LIVE
-        self.color = color
+        self.team = team
         
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 7, 7, 7, 7)
