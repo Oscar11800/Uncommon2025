@@ -17,7 +17,6 @@ class Direction(Enum):
 
 class Block:
     blocks_speed = 1 # speed of blocks falling
-    is_live = 1
 
     def __init__(self, type, location, rotation_state, color):
         self.type = type
@@ -25,6 +24,7 @@ class Block:
         y = location.y
         self.squares = [square.Square(x, y, grid.Grid.SQUARE_SIZE, color)]*4
         self.rotation_state = 0
+        self.is_live = 1
         match type:
             case BlockType.O:
                 self.squares[1].update(x + 1, y)
