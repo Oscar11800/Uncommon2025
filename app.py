@@ -3,6 +3,7 @@ import random
 from square import Square
 from square_state import SquareState
 from ball import Ball
+from paddle import Paddle
 from utils import render_centered_text
 
 # Game Settings (Currently dummy values)
@@ -22,28 +23,32 @@ class App:
     block_list = random.choices(range(1, 8), k=500) # generate 500 random block types
 
     def __init__(self):
-        # Config
+        # Config game window
         self.w = 192
         self.h = 108
+        
+        # Set pixel size of square
         self.square_size = self.w // 25
         print("Square size:", self.square_size)
         self.grid_width_in_squares = 6
         self.grid_height_in_squares = 20
-        self.platform_height = 2
+        self.platform_height_pix = 2
         # Prepare for rendering
         self.platform_width = self.square_size * self.grid_width_in_squares
-        self.platform_height = self.platform_height
+        self.platform_height_pix = self.platform_height_pix
         self.platform_l_x = self.w * 0.025
         self.platform_r_x = self.w * 0.975 - self.platform_width
         # Maintain state
         self.grid_left = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
         self.grid_right = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
+        self.paddles = [Paddle(self.w,self.h, 1), Paddle(self.w, self.h, 2)]
         
         ball_init_x = (self.w // 2) - (BALL_LENGTH // 2)
         ball_init_y = (self.h // 2) - (BALL_LENGTH // 2)
         ball_init_pos = (ball_init_x, ball_init_y)
         self.game_ball = Ball(1, (0, 0), ball_init_pos, BALL_LENGTH)
 
+        # track index of each player in the list of block shapes
         self.player1_block_index = 0
         self.player2_block_index = 0
 
@@ -93,7 +98,7 @@ class App:
     # =============== (floor)
     def make_square(self, square_idx_x, square_idx_y, team):
         left_x = self.platform_l_x if team == 1 else self.platform_r_x
-        y = self.h - self.platform_height - self.square_size * (square_idx_y + 1)
+        y = self.h - self.platform_height_pix - self.square_size * (square_idx_y + 1)
         x = left_x + square_idx_x * self.square_size
         square = Square(x, y, square_idx_x, square_idx_y, self.square_size, team)
         if team == 1:
@@ -109,18 +114,21 @@ class App:
         # Calculate platform location
         left_start = self.platform_l_x
         right_start = self.platform_r_x
-        platform_h = self.platform_height
+        platform_h = self.platform_height_pix
         platform_w = self.platform_width
+        
         # Render platforms
         pyxel.rect(left_start, self.h - platform_h, platform_w, platform_h, 1)
         pyxel.rect(left_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 2)
         pyxel.rect(right_start, self.h - platform_h, platform_w, platform_h, 1)
         pyxel.rect(right_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 2)
+        
         # Remove the top border of the bottom platform if there are other invincible rows
         if self.grid_left[0][0] is not None and self.grid_left[0][0].state == SquareState.INVINCIBLE:
             pyxel.rect(left_start + 1, self.h - platform_h, platform_w - 2, 1, 2)
         if self.grid_right[0][0] is not None and self.grid_right[0][0].state == SquareState.INVINCIBLE:
             pyxel.rect(right_start + 1, self.h - platform_h, platform_w - 2, 1, 2)
+            
         # Draw all the squares
         for square in [square for row in self.grid_left for square in row]:
           if square is not None:
@@ -128,6 +136,8 @@ class App:
         for square in [square for row in self.grid_right for square in row]:
           if square is not None:
               square.draw(self.grid_right)
+        for paddle in self.paddles:
+          paddle.draw()
 
 App()
 
