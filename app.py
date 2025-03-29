@@ -60,7 +60,7 @@ class App:
         left_x = self.platform_l_x if team == 1 else self.platform_r_x
         y = self.h - self.platform_height - self.square_size * (square_idx_y + 1)
         x = left_x + square_idx_x * self.square_size
-        return Square(x, y, self.square_size, team)
+        return Square(x, y, square_idx_x, square_idx_y, self.square_size, team)
       
     def draw_game(self):
         pyxel.cls(0)
@@ -78,7 +78,10 @@ class App:
         # Draw all the squares
         for square in [square for row in self.grid_left for square in row]:
           if square is not None:
-              square.draw()
+              square.draw(self.grid_left)
+        for square in [square for row in self.grid_right for square in row]:
+          if square is not None:
+              square.draw(self.grid_right)
 
 App()
 
