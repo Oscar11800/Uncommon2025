@@ -51,4 +51,5 @@ class Grid:
         
     # returns None if pixel is unoccupied by a Square, else returns a Square
     def get_square(self, pix_x, pix_y):
-        pass
+        x, y = self._pix_to_grid_space(pix_x, pix_y)
+        return self.grid[x][y]
