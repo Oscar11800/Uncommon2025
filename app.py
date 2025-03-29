@@ -2,6 +2,7 @@ import pyxel
 
 # Game Variables (Currently dummy values)
 BALL_SPEED = 1
+BALL_RADIUS = 5
 WINNING_HEIGHT = 100
 
 
@@ -9,8 +10,6 @@ WINNING_HEIGHT = 100
 # tetris blocks
 # pong ball
 # players (pong paddles)
-# internet
-
 
 class App:
     def __init__(self):
