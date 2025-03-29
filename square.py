@@ -56,6 +56,9 @@ class Square:
         self.state = state
         if state == SquareState.DEAD:
             self.destroy()
+
+    def get_state(self):
+        return self.state
         
     def update(self, new_x, new_y):
         self.x = new_x
