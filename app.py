@@ -125,7 +125,7 @@ class App:
           self.make_square(5, 0, 1).set_state(SquareState.INVINCIBLE)
           self.make_square(0, 1, 1)
           self.make_square(2, 0, 2)
-        self.x = (self.x + 1) % pyxel.width
+        self.x = self.x + 1
         
     def draw(self):
         pyxel.cls(0)
