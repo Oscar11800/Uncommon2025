@@ -59,7 +59,14 @@ class App:
         pyxel.run(self.update, self.draw_game)
     
     # Check Functions
-
+    def check_collisions(self):
+       pass
+    def check_setblocks(self):
+       pass
+    def win_con(self):
+       pass
+    def check_missing_live_blocks(self):
+       pass
 
     # Update/Rendering
     def update(self):
