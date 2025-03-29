@@ -1,3 +1,4 @@
+import pyxel
 from enum import Enum
 
 import square
@@ -26,6 +27,7 @@ class Block:
         self.squares = [square.Square(x, y, Grid.SQUARE_SIZE, color)]*4
         self.rotation_state = 0
         self.is_live = 1
+        self.grid = grid
         match type:
             case BlockType.O:
                 self.squares[1].update(x + 1, y)
@@ -134,3 +136,41 @@ class Block:
     def destroy(self):
         for i in len(self.squares):
             self.squares[i].destroy()
+
+    def slide(self, direction):
+        if not self.is_live:
+            return
+        
+        for sq in self.squares:
+            if sq.getX() == 0 and direction == Direction.LEFT:
+                return
+            if sq.getX() == self.grid.width - 1 and direction == Direction.RIGHT:
+                return
+            
+        for sq in self.squares:
+            if direction == Direction.LEFT:
+                sq.update(sq.getX() - 1, sq.getY())
+            elif direction == Direction.RIGHT:
+                sq.update(sq.getX() + 1, sq.getY())
+
+    def update(self):
+        if not self.is_live:
+            return
+
+        if pyxel.btn(pyxel.KEY_Q) and self.player == 0:
+            self.rotate(Direction.LEFT)
+        if pyxel.btn(pyxel.KEY_E) and self.player == 0:
+            self.rotate(Direction.RIGHT)
+        if pyxel.btn(pyxel.KEY_U) and self.player == 1:
+            self.rotate(Direction.LEFT)
+        if pyxel.btn(pyxel.KEY_O) and self.player == 1:
+            self.rotate(Direction.RIGHT)
+        
+        if pyxel.btn(pyxel.KEY_A) and self.player == 0:
+            self.slide(Direction.LEFT)
+        if pyxel.btn(pyxel.KEY_D) and self.player == 0:
+            self.slide(Direction.RIGHT)
+        if pyxel.btn(pyxel.KEY_J) and self.player == 1:
+            self.slide(Direction.LEFT)
+        if pyxel.btn(pyxel.KEY_L) and self.player == 1:
+            self.slide(Direction.RIGHT)
