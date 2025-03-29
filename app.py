@@ -5,6 +5,7 @@ from utils import render_centered_text
 
 # Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
+BALL_LENGTH = 2
 
 # block grid structure
 # tetris blocks
@@ -34,6 +35,12 @@ class App:
         self.grid_left = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
         self.grid_right = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
         
+        ball_init_x = (self.w // 2) - (BALL_LENGTH // 2)
+        ball_init_y = (self.h // 2) - (BALL_LENGTH // 2)
+        ball_init_pos = (ball_init_x, ball_init_y)
+        self.game_ball = Ball(1, (0, 0), ball_init_pos, BALL_LENGTH)
+
+
         # Initialize and report assets
         pyxel.init(self.w, self.h)
         pyxel.load("./assets/block.pyxres")
@@ -44,11 +51,17 @@ class App:
         ])
         self.x = 0
         pyxel.run(self.update, self.draw_game)
-        
+    
+    # Check Functions
+    #def check_col(self): # check left, then right
+
+    # Update/Rendering
     def update(self):
         if self.x == 0:
-          self.grid_left[0][0] = self.make_square(0, 0, 1)
-          self.grid_left[1][0] = self.make_square(2, 0, 2)
+          self.make_square(0, 0, 1)
+          self.make_square(1, 0, 1)
+          self.make_square(0, 1, 1)
+          self.make_square(2, 0, 2)
         self.x = (self.x + 1) % pyxel.width
         
     def draw(self):
@@ -60,7 +73,12 @@ class App:
         left_x = self.platform_l_x if team == 1 else self.platform_r_x
         y = self.h - self.platform_height - self.square_size * (square_idx_y + 1)
         x = left_x + square_idx_x * self.square_size
-        return Square(x, y, square_idx_x, square_idx_y, self.square_size, team)
+        square = Square(x, y, square_idx_x, square_idx_y, self.square_size, team)
+        if team == 1:
+          self.grid_left[square_idx_y][square_idx_x] = square
+        else:
+          self.grid_right[square_idx_y][square_idx_x] = square
+        return square
       
     def draw_game(self):
         pyxel.cls(0)

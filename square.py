@@ -46,6 +46,7 @@ class Square:
             pyxel.rect(self.x, self.y, 1, self.length, border_color)
         if not adjacent_squares[3]:
             pyxel.rect(self.x + self.width - 1, self.y, 1, self.length, border_color)
+        print(adjacent_squares)
     
     def destroy(self):
         self.state = SquareState.DEAD

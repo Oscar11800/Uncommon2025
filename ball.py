@@ -20,6 +20,12 @@ class Ball:
     def set_speed(self, speed):
         self.speed = speed
 
+    def accelerate(self, n):
+        self.speed += n
+    
+    def deccelerate(self, n):
+        self.speed -= n # may need to handle <0 speed to go to 0
+
     def set_vector(self, vector):
         self.vector = vector
     
