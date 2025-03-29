@@ -21,9 +21,9 @@ class App:
     # w = width, h = height, square_size, grid_width_in_squares, platform_height, platform_width,
     # platform_l_x, platform_r_x, grid_left, game_ball
 
-    block_list = random.choices(range(1, 8), k=500) # generate 500 random block types
-
     def __init__(self):
+        self.block_list = random.choices(range(1, 8), k=500) # generate 500 random block types
+
         # Config game window
         self.w = 192
         self.h = 108
@@ -44,9 +44,9 @@ class App:
         self.platform_r_x = self.w * 0.975 - self.platform_width
         
         # Instantiate grids (TODO: Double check params)
-        self.grid_left = Grid(self.square_size, self.height, self.width, self.platform_l_x, self.w - (self.platform_r_x + self.platform_width), 0, self.platform_height_pix)
+        self.grid_left = Grid(self.square_size, self.height, self.width, self.platform_l_x, self.w - (self.platform_r_x + self.platform_width), 0, self.platform_height_pix, self)
         
-        self.grid_right = Grid(self.square_size, self.height, self.width, self.platform_r_x, self.w - (self.platform_l_x + self.platform_width), 0, self.platform_height_pix)
+        self.grid_right = Grid(self.square_size, self.height, self.width, self.platform_r_x, self.w - (self.platform_l_x + self.platform_width), 0, self.platform_height_pix, self)
     
         # Instantiate paddles
         self.paddles = [Paddle(self.w,self.h, 1), Paddle(self.w, self.h, 2)]
