@@ -29,6 +29,9 @@ class Ball:
     def set_length(self, length):
         self.length = length
 
+    def set_list(self, active_pos_list):
+        self.active_pos_list = active_pos_list
+
     def get_speed(self):
         return self.speed
     
@@ -40,5 +43,8 @@ class Ball:
 
     def get_length(self):
         return self.length
+    
+    def get_list(self):
+        return self.active_pos_list
     
 

@@ -2,7 +2,7 @@ import pyxel
 from square import Square
 from ball import Ball
 
-# Game Variables (Currently dummy values)
+# Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
 
 # block grid structure
@@ -11,6 +11,10 @@ WINNING_HEIGHT = 100
 # players (pong paddles)
 
 class App:
+    # Game Object List
+    # w = width, h = height, square_size, grid_width_in_squares, platform_height, platform_width,
+    # platform_l_x, platform_r_x, grid_left, game_ball
+
     def __init__(self):
         # Config
         self.w = 192
@@ -27,7 +31,9 @@ class App:
         self.platform_r_x = self.w * 0.975 - self.platform_width
         # Maintain state
         self.grid_left = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
+        ## TO-DO: define grid_right
         
+
         # Initialize and report assets
         pyxel.init(self.w, self.h)
         pyxel.load("./assets/block.pyxres")
@@ -36,6 +42,9 @@ class App:
     
     # Check Functions
 
+    ##def check_col(self, )
+
+    # Rendering Functions
     def update(self):
         if self.x == 0:
           self.grid_left[0][0] = self.make_square(0, 0)
