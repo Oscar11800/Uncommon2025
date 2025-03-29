@@ -9,7 +9,7 @@ class SquareState(Enum):
     DEAD = 2
 
 class Square:
-    def _init_(self, x, y, size):
+    def __init__(self, x, y, size):
         self.x = x
         self.y = y
         self.width = 1
