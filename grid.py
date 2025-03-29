@@ -34,7 +34,7 @@ class Grid:
         self.grid[x][y] = None
 
     def spawn_block(self, index):
-        self.grid[self.width / 2, self.height - 1] = Block(App.block_list[index], (self.width / 2, self.height - 1), 0)
+        Block(App.block_list[index], (self.width / 2, self.height - 1), 0, self)
     
     def reinforce_squares(self, x):
         for square in self.grid()[x]:
