@@ -1,10 +1,7 @@
 import pyxel
 
 # Game Variables (Currently dummy values)
-BALL_SPEED = 1
-BALL_LENGTH = 2
 WINNING_HEIGHT = 100
-
 
 # block grid structure
 # tetris blocks
@@ -21,5 +18,7 @@ class App:
     def draw(self):
         pyxel.cls(0)
         pyxel.rect(self.x, 0, 2, 2, 9)
+    def update_game_speed():
+        GAME_SPEED += 1
 
 App()

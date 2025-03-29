@@ -1,3 +1,6 @@
+BALL_SPEED = 1
+BALL_LENGTH = 2
+
 class Ball:
     speed = 0
     vector = (0, 0)
