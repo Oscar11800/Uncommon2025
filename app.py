@@ -4,6 +4,7 @@ from ball import Ball
 
 # Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
+BALL_LENGTH = 2
 
 # block grid structure
 # tetris blocks
@@ -33,12 +34,22 @@ class App:
         self.grid_left = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
         self.grid_right = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
         
+        ball_init_x = (self.w // 2) - (BALL_LENGTH // 2)
+        ball_init_y = (self.h // 2) - (BALL_LENGTH // 2)
+        ball_init_pos = (ball_init_x, ball_init_y)
+        self.game_ball = Ball(1, (0, 0), ball_init_pos, BALL_LENGTH)
+
+
         # Initialize and report assets
         pyxel.init(self.w, self.h)
         pyxel.load("./assets/block.pyxres")
         self.x = 0
         pyxel.run(self.update, self.draw_game)
-        
+    
+    # Check Functions
+    #def check_col(self): # check left, then right
+
+    # Update/Rendering
     def update(self):
         if self.x == 0:
           self.grid_left[0][0] = self.make_square(0, 0,1)
