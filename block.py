@@ -1,6 +1,6 @@
-import pyxel
-
 from enum import Enum
+
+import square, grid
 
 class BlockType(Enum):
     O = 1
@@ -17,13 +17,13 @@ class Direction(Enum):
 
 class Block:
     blocks_speed = 1 # speed of blocks falling
+    is_live = 1
 
-    def __init__(self, type, location, rotation_state):
+    def __init__(self, type, location, rotation_state, color):
         self.type = type
-        #self.location = location
         x = location.x
         y = location.y
-        self.squares = [Square(x, y)]*4
+        self.squares = [square.Square(x, y, grid.Grid.SQUARE_SIZE, color)]*4
         self.rotation_state = 0
         match type:
             case BlockType.O:
@@ -89,49 +89,49 @@ class Block:
         return (x, y)
 
     def rotate(self, direction):
+        if not self.is_live:
+            return
+
         # call update for all four squares
         (x0, y0) = (self.squares[0].getX(), self.squares[0].getY())
         (x1, y1) = (self.squares[1].getX(), self.squares[1].getY())
         (x2, y2) = (self.squares[2].getX(), self.squares[2].getY())
         (x3, y3) = (self.squares[3].getX(), self.squares[3].getY())
-        match self.type:
-            #case BlockType.O:
-            #    return
-            case BlockType.I:
-                # s is sine of the angle (cosine is 0 either way)
-                if (direction == Direction.LEFT):
-                    s = 1
-                elif (direction == Direction.RIGHT):
-                    s = -1
-
-                x0 -= self.originX
-                y0 -= self.originY
-
-                x0_new = -y0 * s
-                y0_new = x0 * s
+        
+        # s is sine of the angle (cosine is 0 either way)
+        if (direction == Direction.LEFT):
+            s = 1
+        elif (direction == Direction.RIGHT):
+            s = -1
                 
-                x0 = x0_new + self.originX
-                y0 = y0_new + self.originY
-
-                self.squares[0].update(x0, y0)
-                # if (direction == Direction.RIGHT):
-                #     self.squares[1].update(x1, y1 - 1)
-                #     self.squares[2].update(x1, y1 - 2)
-                #     self.squares[3].update(x1, y1 - 3)
-                # elif (direction == Direction.LEFT):
-                #     self.squares[1].update()
+        self.squares[0].update(Block.rotate_helper(self, x0, y0, s))
+        self.squares[1].update(Block.rotate_helper(self, x1, y1, s))
+        self.squares[2].update(Block.rotate_helper(self, x2, y2, s))
+        self.squares[3].update(Block.rotate_helper(self, x3, y3, s))
 
         if (direction == Direction.RIGHT): self.rotation_state += 1
         elif (direction == Direction.LEFT): self.rotation_state -= 1
         self.rotation_state %= 4
 
-        return
-
     def set_speed(new_speed):
         Block.blocks_speed = new_speed
+    
+    def move_down(self):
+        self.originX -= 1
+        self.originY -= 1
 
-    def draw():
-        pass
+        for i in len(self.squares):
+            prev_x = self.squares[i].getX()
+            prev_y = self.squares[i].getY()
+            self.squares[i].update(prev_x, prev_y - 1)
 
-    def destroy():
-        pass
+            if (Grid[prev_x, prev_y - 1] != None):
+                self.is_live = 0
+
+    def draw(self):
+        for i in len(self.squares):
+            self.squares[i].draw()
+
+    def destroy(self):
+        for i in len(self.squares):
+            self.squares[i].destroy()
