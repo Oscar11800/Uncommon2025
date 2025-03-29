@@ -42,8 +42,8 @@ class Grid:
     def _pix_to_grid_space(self, pix_x, pix_y):
         # check pixel is within the grid
         if (pix_x >= self.x_pix_offset_left and pix_x <= self.x_pix_offset_right and pix_y >= self.y_pix_offset_bot and pix_y <= self.y_pix_offset_top):
-            grid_x = math.ceil((pix_x - self.x_pix_offset_left) / self.square_size)
-            grid_y = math.floor((pix_y + self.y_pix_offset_bot) / self.square_size)
+            grid_x = math.floor((pix_x - self.x_pix_offset_left) / self.square_size)
+            grid_y = math.floor((pix_y - self.y_pix_offset_bot) / self.square_size)
             return (grid_x, grid_y)
         else:
             print("ERROR: Specified pixel is not within the grid.")
