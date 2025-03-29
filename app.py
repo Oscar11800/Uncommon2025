@@ -1,6 +1,7 @@
 import pyxel
 from square import Square
 from ball import Ball
+from utils import render_centered_text
 
 # Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
@@ -36,13 +37,18 @@ class App:
         # Initialize and report assets
         pyxel.init(self.w, self.h)
         pyxel.load("./assets/block.pyxres")
+        pyxel.colors.from_list([
+          0x121019, 0x3D3D3D, 0x525252, 
+          0xF2F2F2, 0x1F4283, 0x226CE0, 
+          0x853D3B, 0xEF6351, 0x2D283E
+        ])
         self.x = 0
         pyxel.run(self.update, self.draw_game)
         
     def update(self):
         if self.x == 0:
-          self.grid_left[0][0] = self.make_square(0, 0,1)
-          self.grid_left[1][0] = self.make_square(2, 0,2)
+          self.grid_left[0][0] = self.make_square(0, 0, 1)
+          self.grid_left[1][0] = self.make_square(2, 0, 2)
         self.x = (self.x + 1) % pyxel.width
         
     def draw(self):
@@ -57,16 +63,18 @@ class App:
         return Square(x, y, self.square_size, team)
       
     def draw_game(self):
-        pyxel.cls(6)
+        pyxel.cls(0)
+        # Draw background name
+        render_centered_text("TETRISN'T", 8, self.w, self.h)
         # Draw static background
         left_start = self.platform_l_x
         right_start = self.platform_r_x
         platform_h = self.platform_height
         platform_w = self.platform_width
         pyxel.rect(left_start, self.h - platform_h, platform_w, platform_h, 1)
-        pyxel.rect(left_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 5)
+        pyxel.rect(left_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 2)
         pyxel.rect(right_start, self.h - platform_h, platform_w, platform_h, 1)
-        pyxel.rect(right_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 5)
+        pyxel.rect(right_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 2)
         # Draw all the squares
         for square in [square for row in self.grid_left for square in row]:
           if square is not None:

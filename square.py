@@ -8,6 +8,12 @@ class SquareState(Enum):
     LIVE = 1
     DEAD = 2
     INVINCIBLE = 3
+  
+class Colors(Enum):
+    TEAM_1_INNER = 5
+    TEAM_1_OUTER = 4
+    TEAM_2_INNER = 7
+    TEAM_2_OUTER = 6
 
 # A square is always a unit size in terms of the grid
 class Square:
@@ -21,8 +27,9 @@ class Square:
         self.team = team
         
     def draw(self):
-        pyxel.blt(self.x, self.y, 0, 7, 7, 7, 7)
-        #pyxel.rect(self.x, self.y, self.width, self.length, self.color)
+        #pyxel.blt(self.x, self.y, 0, 7, 7, 7, 7)
+        color = Colors.TEAM_1_INNER.value if self.team == 1 else Colors.TEAM_2_INNER.value
+        pyxel.rect(self.x, self.y, self.width, self.length, color)
     
     def destroy(self):
         self.state = SquareState.DEAD
