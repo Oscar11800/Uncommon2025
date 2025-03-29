@@ -28,8 +28,9 @@ class App:
         # Maintain state
         self.grid_left = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
         
-        # Initialize and Run
+        # Initialize and report assets
         pyxel.init(self.w, self.h)
+        pyxel.load("./assets/block.pyxres")
         self.x = 0
         pyxel.run(self.update, self.draw_game)
     
@@ -46,7 +47,7 @@ class App:
     def make_square(self, square_idx_x, square_idx_y):
         y = self.h - self.platform_height - self.square_size * (square_idx_y + 1)
         x = self.platform_l_x + square_idx_x * self.square_size
-        return Square(x, y, self.square_size)
+        return Square(x, y, self.square_size, 0)
     def draw_game(self):
         pyxel.cls(6)
         # Draw static background
@@ -61,6 +62,6 @@ class App:
         # Draw all the squares
         for square in [square for row in self.grid_left for square in row]:
           if square is not None:
-                pyxel.rect(square.x, square.y, self.square_size, self.square_size, 3)
+              square.draw()
 App()
 
