@@ -3,6 +3,7 @@ import random
 from square import Square
 from square_state import SquareState
 from ball import Ball
+from paddle import Paddle
 from utils import render_centered_text
 
 # Game Settings (Currently dummy values)
@@ -40,12 +41,14 @@ class App:
         # Maintain state
         self.grid_left = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
         self.grid_right = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
+        self.paddles = [Paddle(self.w,self.h, 1), Paddle(self.w, self.h, 2)]
         
         ball_init_x = (self.w // 2) - (BALL_LENGTH // 2)
         ball_init_y = (self.h // 2) - (BALL_LENGTH // 2)
         ball_init_pos = (ball_init_x, ball_init_y)
         self.game_ball = Ball(1, (0, 0), ball_init_pos, BALL_LENGTH)
 
+        # track index of each player in the list of block shapes
         self.player1_block_index = 0
         self.player2_block_index = 0
 
@@ -61,7 +64,14 @@ class App:
         pyxel.run(self.update, self.draw_game)
     
     # Check Functions
-
+    def check_collisions(self):
+       pass
+    def check_setblocks(self):
+       pass
+    def win_con(self):
+       pass
+    def check_missing_live_blocks(self):
+       pass
 
     # Update/Rendering
     def update(self):
@@ -126,6 +136,8 @@ class App:
         for square in [square for row in self.grid_right for square in row]:
           if square is not None:
               square.draw(self.grid_right)
+        for paddle in self.paddles:
+          paddle.draw()
 
 App()
 

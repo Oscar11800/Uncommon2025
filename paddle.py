@@ -5,13 +5,13 @@ class Paddle:
     height = 8
     paddle_speed = 2
 
-    def __init__(self, bottomY, player):
-        self.bottomY = bottomY
+    def __init__(self, w, h, player):
+        self.bottomY = h - 20
+        self.x = (w // 2) + 45 * (-1 if player == 1 else 1)
         self.player = player # player is 0 or 1
-        self.x = 30 + (40 * player)
     
     def draw(self):
-        pyxel.rect(self.x, self.bottomY, Paddle.width, Paddle.height, 0)
+        pyxel.rect(self.x, self.bottomY, Paddle.width, Paddle.height, 3)
 
     def update(self):
         if pyxel.btn(pyxel.KEY_W) and self.player == 0:
