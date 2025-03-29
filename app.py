@@ -5,6 +5,7 @@ from square_state import SquareState
 from ball import Ball
 from paddle import Paddle
 from utils import render_centered_text
+from grid import Grid
 
 # Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
@@ -30,25 +31,33 @@ class App:
         # Set pixel size of square
         self.square_size = self.w // 25
         print("Square size:", self.square_size)
+        
+        # Set grid size in squares
         self.grid_width_in_squares = 6
         self.grid_height_in_squares = 20
+        
+        # Set platform dimentions
         self.platform_height_pix = 2
-        # Prepare for rendering
         self.platform_width = self.square_size * self.grid_width_in_squares
         self.platform_height_pix = self.platform_height_pix
         self.platform_l_x = self.w * 0.025
         self.platform_r_x = self.w * 0.975 - self.platform_width
-        # Maintain state
-        self.grid_left = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
-        self.grid_right = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
+        
+        # Instantiate grids (TODO: Double check params)
+        self.grid_left = Grid(self.square_size, self.height, self.width, self.platform_l_x, self.w - (self.platform_r_x + self.platform_width), 0, self.platform_height_pix)
+        
+        self.grid_right = Grid(self.square_size, self.height, self.width, self.platform_r_x, self.w - (self.platform_l_x + self.platform_width), 0, self.platform_height_pix)
+    
+        # Instantiate paddles
         self.paddles = [Paddle(self.w,self.h, 1), Paddle(self.w, self.h, 2)]
         
+        # Instantiate ball
         ball_init_x = (self.w // 2) - (BALL_LENGTH // 2)
         ball_init_y = (self.h // 2) - (BALL_LENGTH // 2)
         ball_init_pos = (ball_init_x, ball_init_y)
         self.game_ball = Ball(1, (0, 0), ball_init_pos, BALL_LENGTH)
 
-        # track index of each player in the list of block shapes
+        # Track index of each player in the list of block shapes
         self.player1_block_index = 0
         self.player2_block_index = 0
 
