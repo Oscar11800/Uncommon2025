@@ -31,9 +31,8 @@ class App:
         self.platform_r_x = self.w * 0.975 - self.platform_width
         # Maintain state
         self.grid_left = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
-        ## TO-DO: define grid_right
+        self.grid_right = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
         
-
         # Initialize and report assets
         pyxel.init(self.w, self.h)
         pyxel.load("./assets/block.pyxres")
@@ -42,18 +41,21 @@ class App:
         
     def update(self):
         if self.x == 0:
-          self.grid_left[0][0] = self.make_square(0, 0)
-          self.grid_left[1][0] = self.make_square(2, 0)
+          self.grid_left[0][0] = self.make_square(0, 0,1)
+          self.grid_left[1][0] = self.make_square(2, 0,2)
         self.x = (self.x + 1) % pyxel.width
         
     def draw(self):
         pyxel.cls(0)
         pyxel.rect(self.x, 0, 8, 8, 9)
-        
-    def make_square(self, square_idx_x, square_idx_y):
+    
+    # Team should be 1 if left, 2 if right
+    def make_square(self, square_idx_x, square_idx_y, team):
+        left_x = self.platform_l_x if team == 1 else self.platform_r_x
         y = self.h - self.platform_height - self.square_size * (square_idx_y + 1)
-        x = self.platform_l_x + square_idx_x * self.square_size
-        return Square(x, y, self.square_size, 0)
+        x = left_x + square_idx_x * self.square_size
+        return Square(x, y, self.square_size, team)
+      
     def draw_game(self):
         pyxel.cls(6)
         # Draw static background
@@ -69,5 +71,6 @@ class App:
         for square in [square for row in self.grid_left for square in row]:
           if square is not None:
               square.draw()
+
 App()
 
