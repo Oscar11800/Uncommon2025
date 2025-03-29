@@ -47,6 +47,14 @@ class Grid:
                     return True
         return False
     
+    def check_win(self, win_height):
+        for i in self.height:
+            for j in self.width:
+                if self.grid[i][j].get_state() == SquareState.SET:
+                    if i + 1 >= win_height:
+                        return True
+        return False
+
     #return tuple of x and y on grid coordinates corresponding to pixel x,y
     def _pix_to_grid_space(self, pix_x, pix_y):
         # check pixel is within the grid

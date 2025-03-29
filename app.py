@@ -63,19 +63,25 @@ class App:
         self.x = 0
         pyxel.run(self.update, self.draw_game)
     
-    # Check/Fix Functions
+    # Check/Fix/Essential Functions
     def check_collisions(self):
        pass
     def check_setblocks(self): # convert live blocks touching set blocks to set blocks, convert set blocks in row to invulnerable blocks, destroy set islands
        pass
-    def win_con(self):
-       pass
+    def player_wins(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
+       pyxel.text(0, 0, "PLAYER {winning_player} WINS!")
+       pyxel.quit()
+    def check_win_con(self):
+        if self.grid_left.check_win(WINNING_HEIGHT):
+           self.player_wins(1)
+        elif self.grid_right.check_win(WINNING_HEIGHT):
+           self.player_wins(2)
+
     def fix_missing_live_blocks(self): # checks if either grid is missing a live block and respawns one if so
         if not self.grid_left.has_live():
           self.grid_left.spawn_block(self.player1_block_index)
         if not self.grid_right.has_live():
           self.grid_right.spawn_block(self.player2_block_index)
-    
 
     # Update/Rendering
     def update(self):
