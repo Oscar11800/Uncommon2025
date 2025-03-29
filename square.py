@@ -7,18 +7,21 @@ class SquareState(Enum):
     SET = 0
     LIVE = 1
     DEAD = 2
+    INVINCIBLE = 3
 
+# A square is always a unit size in terms of the grid
 class Square:
-    def __init__(self, x, y, size):
+    def __init__(self, x, y, size, color):
         self.x = x
         self.y = y
-        self.width = 1
-        self.length = 1
-        self.size = size 
+        self.width = size
+        self.length = size
+        self.size = size # size is in terms of pixels
         self.state = SquareState.LIVE
+        self.color = color
         
     def draw(self):
-        pyxel.rect(self.x, self.y)
+        pyxel.rect(self.x, self.y, self.width, self.length, self.color)
     
     def destroy(self):
         self.state = SquareState.DEAD
@@ -26,6 +29,8 @@ class Square:
     
     def set_state(self, state):
         self.state = state
+        if state == SquareState.DEAD:
+            self.destroy()
         
     def update(self, new_x, new_y):
         self.x = new_x
