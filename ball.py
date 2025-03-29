@@ -24,7 +24,7 @@ class Ball:
         self.draw()
 
     def draw(self):
-        pyxel.circ(Ball.position[0], Ball.position[1], Ball.radius, Ball.color)
+        pyxel.rect(Ball.position[0], Ball.position[1], Ball.radius, Ball.radius, Ball.color)
 
     def set_speed(self, speed):
         self.speed = speed

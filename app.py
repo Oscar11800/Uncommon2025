@@ -89,7 +89,12 @@ class App:
                     self.game_ball.position[0], self.game_ball.position[1], 
                     square.x, square.y, self.game_ball.length
                   )
-                  print(here)
+                  # if vertical, then invert the horizontal component of velocity
+                  self.game_ball.vector[0] *= -1
+                  # if horizontal, invert the vertical component
+                  self.game_ball.vector[0] *= -1
+                  # also remove this square
+                  square.state = SquareState.DEAD
                   
                   
     def check_setblocks(self):
