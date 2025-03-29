@@ -18,7 +18,7 @@ class Direction(Enum):
 class Block:
     blocks_speed = 1 # speed of blocks falling
 
-    def __init__(self, type, location, rotation_state, color):
+    def __init__(self, type, location, color):
         self.type = type
         x = location.x
         y = location.y
@@ -71,7 +71,7 @@ class Block:
         
         self.draw()
             
-    def rotate_helper(self, x, y, s):
+    def _rotate_helper(self, x, y, s):
         x -= self.originX
         y -= self.originY
 
@@ -99,10 +99,10 @@ class Block:
         elif (direction == Direction.RIGHT):
             s = -1
                 
-        self.squares[0].update(Block.rotate_helper(self, x0, y0, s))
-        self.squares[1].update(Block.rotate_helper(self, x1, y1, s))
-        self.squares[2].update(Block.rotate_helper(self, x2, y2, s))
-        self.squares[3].update(Block.rotate_helper(self, x3, y3, s))
+        self.squares[0].update(Block._rotate_helper(self, x0, y0, s))
+        self.squares[1].update(Block._rotate_helper(self, x1, y1, s))
+        self.squares[2].update(Block._rotate_helper(self, x2, y2, s))
+        self.squares[3].update(Block._rotate_helper(self, x3, y3, s))
 
         if (direction == Direction.RIGHT): self.rotation_state += 1
         elif (direction == Direction.LEFT): self.rotation_state -= 1
