@@ -4,7 +4,8 @@ from square import Square
 from square_state import SquareState
 from ball import Ball
 from paddle import Paddle
-from utils import render_centered_text
+from utils import render_centered_text, horizontal_or_vertical_collision
+from grid import Grid
 
 # Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
@@ -30,25 +31,33 @@ class App:
         # Set pixel size of square
         self.square_size = self.w // 25
         print("Square size:", self.square_size)
+        
+        # Set grid size in squares
         self.grid_width_in_squares = 6
         self.grid_height_in_squares = 20
+        
+        # Set platform dimentions
         self.platform_height_pix = 2
-        # Prepare for rendering
         self.platform_width = self.square_size * self.grid_width_in_squares
         self.platform_height_pix = self.platform_height_pix
         self.platform_l_x = self.w * 0.025
         self.platform_r_x = self.w * 0.975 - self.platform_width
-        # Maintain state
-        self.grid_left = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
-        self.grid_right = [[None] * self.grid_width_in_squares for _ in range(self.grid_height_in_squares)]
+        
+        # Instantiate grids (TODO: Double check params)
+        self.grid_left = Grid(self.square_size, self.height, self.width, self.platform_l_x, self.w - (self.platform_r_x + self.platform_width), 0, self.platform_height_pix)
+        
+        self.grid_right = Grid(self.square_size, self.height, self.width, self.platform_r_x, self.w - (self.platform_l_x + self.platform_width), 0, self.platform_height_pix)
+    
+        # Instantiate paddles
         self.paddles = [Paddle(self.w,self.h, 1), Paddle(self.w, self.h, 2)]
         
+        # Instantiate ball
         ball_init_x = (self.w // 2) - (BALL_LENGTH // 2)
         ball_init_y = (self.h // 2) - (BALL_LENGTH // 2)
         ball_init_pos = (ball_init_x, ball_init_y)
         self.game_ball = Ball(1, (0, 0), ball_init_pos, BALL_LENGTH)
 
-        # track index of each player in the list of block shapes
+        # Track index of each player in the list of block shapes
         self.player1_block_index = 0
         self.player2_block_index = 0
 
@@ -65,8 +74,25 @@ class App:
     
     # Check/Fix/Essential Functions
     def check_collisions(self):
-       pass
-    def check_setblocks(self): # convert live blocks touching set blocks to set blocks, convert set blocks in row to invulnerable blocks, destroy set islands
+        active_grid = self.grid_left if self.game_ball.position[0] < self.w // 2 else self.grid_right
+        min_x, max_x = self.game_ball.position[0], self.game_ball.position[0] + self.game_ball.length
+        min_y, max_y = self.game_ball.position[1], self.game_ball.position[1] + self.game_ball.length
+        ball_cords = set([(i,j) for i in range(min_x, max_x) for j in range(min_y, max_y)])
+        for square in [square for row in active_grid for square in row]:
+            if square is not None:
+                sqr_x1, sqr_y1 = square.x, square.y
+                sqr_x2, sqr_y2 = square.x + square.size, square.y + square.size
+                square_cords = set([(i,j) for i in range(sqr_x1, sqr_x2) for j in range(sqr_y1, sqr_y2)])
+                if (overlap := ball_cords.intersection(square_cords)):
+                  intersect = list(overlap)[0]
+                  vertical_collision = horizontal_or_vertical_collision(
+                    self.game_ball.position[0], self.game_ball.position[1], 
+                    square.x, square.y, self.game_ball.length
+                  )
+                  print(here)
+                  
+                  
+    def check_setblocks(self):
        pass
     def player_wins(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
        pyxel.text(0, 0, "PLAYER {winning_player} WINS!")

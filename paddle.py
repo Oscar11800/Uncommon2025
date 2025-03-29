@@ -19,9 +19,9 @@ class Paddle:
         if pyxel.btn(pyxel.KEY_S) and self.player == 0:
             self.bottomY -= Paddle.paddle_speed
 
-        if pyxel.btn(pyxel.KEY_UP) and self.player == 1:
+        if pyxel.btn(pyxel.KEY_I) and self.player == 1:
             self.bottomY += Paddle.paddle_speed
-        if pyxel.btn(pyxel.KEY_DOWN) and self.player == 1:
+        if pyxel.btn(pyxel.KEY_K) and self.player == 1:
             self.bottomY -= Paddle.paddle_speed
 
         self.draw()

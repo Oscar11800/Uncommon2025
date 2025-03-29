@@ -1,3 +1,5 @@
+import pyxel
+
 BALL_SPEED = 1
 BALL_LENGTH = 2
 
@@ -7,6 +9,8 @@ class Ball:
     position = (0, 0) # refers to top left corner of ball
     length = 0
     active_pos_list = []
+    radius = 1
+    color = 0
     
     def __init__(self, speed, vector, position, length):
         self.speed = speed # need to initialize these
@@ -16,6 +20,11 @@ class Ball:
         for i in range(length):
             for j in range(length):
                 self.active_pos_list.append((self.position[0] + (i - 1), self.position[1] + (j - 1)))
+        
+        self.draw()
+
+    def draw(self):
+        pyxel.circ(Ball.position[0], Ball.position[1], Ball.radius, Ball.color)
 
     def set_speed(self, speed):
         self.speed = speed
