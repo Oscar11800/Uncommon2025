@@ -53,7 +53,7 @@ class App:
         pyxel.run(self.update, self.draw_game)
     
     # Check Functions
-    #def check_col(self): # check left, then right
+
 
     # Update/Rendering
     def update(self):
