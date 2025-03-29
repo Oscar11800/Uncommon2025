@@ -21,7 +21,8 @@ class Square:
         self.color = color
         
     def draw(self):
-        pyxel.rect(self.x, self.y, self.width, self.length, self.color)
+        pyxel.blt(self.x, self.y, 0, 7, 7, 7, 7)
+        #pyxel.rect(self.x, self.y, self.width, self.length, self.color)
     
     def destroy(self):
         self.state = SquareState.DEAD
