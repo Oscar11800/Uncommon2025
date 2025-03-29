@@ -1,5 +1,6 @@
 import pyxel
 from square import Square
+from ball import Ball
 
 # Game Variables (Currently dummy values)
 WINNING_HEIGHT = 100
@@ -31,6 +32,9 @@ class App:
         pyxel.init(self.w, self.h)
         self.x = 0
         pyxel.run(self.update, self.draw_game)
+    
+    # Check Functions
+
     def update(self):
         if self.x == 0:
           self.grid_left[0][0] = self.make_square(0, 0)
@@ -57,6 +61,6 @@ class App:
         # Draw all the squares
         for square in [square for row in self.grid_left for square in row]:
           if square is not None:
-              pyxel.rect(square.x, square.y, self.square_size, self.square_size, 3)
+                pyxel.rect(square.x, square.y, self.square_size, self.square_size, 3)
 App()
 
