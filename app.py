@@ -1,5 +1,6 @@
 import pyxel
 from square import Square
+from square_state import SquareState
 from ball import Ball
 from utils import render_centered_text
 
@@ -58,8 +59,12 @@ class App:
     # Update/Rendering
     def update(self):
         if self.x == 0:
-          self.make_square(0, 0, 1)
-          self.make_square(1, 0, 1)
+          self.make_square(0, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(1, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(2, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(3, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(4, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(5, 0, 1).set_state(SquareState.INVINCIBLE)
           self.make_square(0, 1, 1)
           self.make_square(2, 0, 2)
         self.x = (self.x + 1) % pyxel.width
@@ -69,6 +74,11 @@ class App:
         pyxel.rect(self.x, 0, 8, 8, 9)
     
     # Team should be 1 if left, 2 if right
+    # Number placement is such that 
+    # ...
+    # (1,1), (2,1)...
+    # (0,0), (1,0)...
+    # =============== (floor)
     def make_square(self, square_idx_x, square_idx_y, team):
         left_x = self.platform_l_x if team == 1 else self.platform_r_x
         y = self.h - self.platform_height - self.square_size * (square_idx_y + 1)
@@ -84,15 +94,21 @@ class App:
         pyxel.cls(0)
         # Draw background name
         render_centered_text("TETRISN'T", 8, self.w, self.h)
-        # Draw static background
+        # Calculate platform location
         left_start = self.platform_l_x
         right_start = self.platform_r_x
         platform_h = self.platform_height
         platform_w = self.platform_width
+        # Render platforms
         pyxel.rect(left_start, self.h - platform_h, platform_w, platform_h, 1)
         pyxel.rect(left_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 2)
         pyxel.rect(right_start, self.h - platform_h, platform_w, platform_h, 1)
         pyxel.rect(right_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 2)
+        # Remove the top border of the bottom platform if there are other invincible rows
+        if self.grid_left[0][0] is not None and self.grid_left[0][0].state == SquareState.INVINCIBLE:
+            pyxel.rect(left_start + 1, self.h - platform_h, platform_w - 2, 1, 2)
+        if self.grid_right[0][0] is not None and self.grid_right[0][0].state == SquareState.INVINCIBLE:
+            pyxel.rect(right_start + 1, self.h - platform_h, platform_w - 2, 1, 2)
         # Draw all the squares
         for square in [square for row in self.grid_left for square in row]:
           if square is not None:
