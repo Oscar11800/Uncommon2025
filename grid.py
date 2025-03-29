@@ -1,6 +1,8 @@
 import pyxel
 from square import Square
 from square import SquareState
+from app import App
+from block import Block
 import math
 
 class Grid:
@@ -31,8 +33,8 @@ class Grid:
     def destroy_square(self, x, y):
         self.grid[x][y] = None
 
-    def spawn_block(self):
-        pass
+    def spawn_block(self, index):
+        self.grid[self.width / 2, self.height - 1] = Block(App.block_list[index], (self.width / 2, self.height - 1), 0)
     
     def reinforce_squares(self, x):
         for square in self.grid()[x]:
