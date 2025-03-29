@@ -39,20 +39,17 @@ class App:
         pyxel.load("./assets/block.pyxres")
         self.x = 0
         pyxel.run(self.update, self.draw_game)
-    
-    # Check Functions
-
-    ##def check_col(self, )
-
-    # Rendering Functions
+        
     def update(self):
         if self.x == 0:
           self.grid_left[0][0] = self.make_square(0, 0)
           self.grid_left[1][0] = self.make_square(2, 0)
         self.x = (self.x + 1) % pyxel.width
+        
     def draw(self):
         pyxel.cls(0)
         pyxel.rect(self.x, 0, 8, 8, 9)
+        
     def make_square(self, square_idx_x, square_idx_y):
         y = self.h - self.platform_height - self.square_size * (square_idx_y + 1)
         x = self.platform_l_x + square_idx_x * self.square_size
