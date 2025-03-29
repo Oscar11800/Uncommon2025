@@ -47,8 +47,10 @@ class App:
         
     def update(self):
         if self.x == 0:
-          self.grid_left[0][0] = self.make_square(0, 0, 1)
-          self.grid_left[1][0] = self.make_square(2, 0, 2)
+          self.make_square(0, 0, 1)
+          self.make_square(1, 0, 1)
+          self.make_square(0, 1, 1)
+          self.make_square(2, 0, 2)
         self.x = (self.x + 1) % pyxel.width
         
     def draw(self):
@@ -60,7 +62,12 @@ class App:
         left_x = self.platform_l_x if team == 1 else self.platform_r_x
         y = self.h - self.platform_height - self.square_size * (square_idx_y + 1)
         x = left_x + square_idx_x * self.square_size
-        return Square(x, y, square_idx_x, square_idx_y, self.square_size, team)
+        square = Square(x, y, square_idx_x, square_idx_y, self.square_size, team)
+        if team == 1:
+          self.grid_left[square_idx_y][square_idx_x] = square
+        else:
+          self.grid_right[square_idx_y][square_idx_x] = square
+        return square
       
     def draw_game(self):
         pyxel.cls(0)
