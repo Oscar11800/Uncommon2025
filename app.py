@@ -45,7 +45,6 @@ class App:
         
         self.grid_right = Grid(self.square_size, self.grid_height_in_squares, self.grid_width_in_squares, self.platform_r_x, 0, self.platform_height_pix, self)
 
-    
         # Instantiate paddles
         self.paddles = [Paddle(self.w,self.h, 1), Paddle(self.w, self.h, 2)]
         
@@ -115,6 +114,7 @@ class App:
 
     # Update/Rendering
     def update(self):
+
         if self.x == 0:
           self.make_square(0, 0, 1).set_state(SquareState.INVINCIBLE)
           self.make_square(1, 0, 1).set_state(SquareState.INVINCIBLE)
