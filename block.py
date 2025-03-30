@@ -21,8 +21,8 @@ class Block:
 
     def __init__(self, type, location, color, grid):
         self.type = type
-        x = location.x
-        y = location.y
+        x = location[0]
+        y = location[1]
         self.squares = [square.Square(x, y, grid.SQUARE_SIZE, color)]*4
         self.rotation_state = 0
         self.is_live = 1
