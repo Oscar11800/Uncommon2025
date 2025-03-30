@@ -5,6 +5,8 @@ from ball import Ball
 from paddle import Paddle
 from utils import render_centered_text, horizontal_or_vertical_collision
 from grid import Grid
+from playsound import playsound
+import threading
 
 # Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
@@ -99,8 +101,10 @@ class App:
         for paddle in self.paddles: # collisions are all horizontal
            if self.game_ball.position[0] == paddle.x + 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
               self.game_ball.vector[0] *= -1
+              threading.Thread(target=playsound, args=('assets\\paddle_hit.wav',), daemon=True).start()
            if self.game_ball.position[0] == paddle.x - 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
               self.game_ball.vector[0] *= -1
+              threading.Thread(target=playsound, args=('assets\\paddle_hit.wav',), daemon=True).start()
         for i in range(len(active_grid.grid)):
             for j in range(len(active_grid.grid[i])):
                 square = self.grid_left.grid[i][j]
