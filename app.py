@@ -75,7 +75,7 @@ class App:
         pyxel.run(self.update, self.draw_game)
     
     def start_game(self):
-        self.game_running = False
+        self.game_running = True
         self.start_time = time.time()
         
     
