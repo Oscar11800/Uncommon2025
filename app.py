@@ -146,8 +146,8 @@ class App:
                   elif square.state == SquareState.INVINCIBLE:
                     threading.Thread(target=playsound, args=(os.path.dirname(__file__) + '/assets/invincible_block_hit.wav',), daemon=True).start()
         for paddle in self.paddles: # collisions are all horizontal
-          if self.game_ball.position[0] >= paddle.x - 1 and self.game_ball.position[0] <= paddle.x + 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
-            new_angle = 0.7 * math.atan(abs(self.game_ball.position[1] - paddle.bottomY + (Paddle.height / 2)))
+          if self.game_ball.position[0] >= paddle.x - 2 and self.game_ball.position[0] <= paddle.x + 2 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
+            new_angle = 0.6 * math.atan(abs(self.game_ball.position[1] - paddle.bottomY + (Paddle.height / 2)))
             self.game_ball.vector[0] = (math.cos(new_angle) * self.game_ball.speed)
             self.game_ball.vector[1] = (math.sin(new_angle) * self.game_ball.speed)
             if self.game_ball.position[0] < paddle.x:
