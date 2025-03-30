@@ -83,6 +83,9 @@ class Block:
         for i in range(len(self.squares)):
             prev_y = self.squares[i].get_y()
             self.squares[i].update(self.squares[i].get_x(), prev_y - 1)
+            self.squares[i].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[i].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[i].get_y()))
             if (self.grid.get_grid()[int(prev_y - 1)][int(self.squares[i].get_x())]!= None):
                 self.is_live = 0
         self.draw()
