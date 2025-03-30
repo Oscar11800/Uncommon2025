@@ -5,6 +5,7 @@ from square import SquareState
 from block import Block
 import math
 import random
+import numpy as np
 
 class Grid:
     block_list = random.choices(range(1, 8), k=500) # generate 500 random block types
@@ -37,11 +38,15 @@ class Grid:
     def destroy_square(self, x, y):
         self.grid[x][y] = None
 
-    def spawn_block(self, index):
-        return Block(Grid.block_list[index], (self.width / 2, self.height - 1), 0, self)
+    def spawn_block(self, index, player):
+        return Block(Grid.block_list[index], (self.width / 2, self.height - 1), player, self)
     
     def add_square(self, square, x, y):
-        self.grid[x][y] = square
+        print("AHHHHH X")
+        print(x)
+        print("AHHHHH Y")
+        print(y)
+        self.grid[y][x] = square
         
     def reinforce_squares(self, x):
         for square in self.grid()[x]:
@@ -76,4 +81,7 @@ class Grid:
     # returns None if pixel is unoccupied by a Square, else returns a Square
     def get_square(self, pix_x, pix_y):
         x, y = self._pix_to_grid_space(pix_x, pix_y)
-        return self.grid[x][y]
+        return self.grid[x][y]  
+    
+    def print_grid(self):
+        print(np.matrix(self.grid))
