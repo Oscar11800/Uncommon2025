@@ -186,7 +186,6 @@ class Block:
         Block.blocks_speed = new_speed
     
     def move_down(self):
-        self.originX -= 1
         self.originY -= 1
 
         for i in len(self.squares):
