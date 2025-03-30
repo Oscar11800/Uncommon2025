@@ -145,18 +145,29 @@ class App:
         if self.game_ball.position[0] <= 0 or self.game_ball.position[0] >= self.w - self.game_ball.length: 
             self.game_ball.vector[0] *= -1
                   
-                  
-    def check_setblocks(self): # TO-DO: convert live blocks 
-       blocks_to_set = []
-       visited = set()
-       rows, cols = len(self.grid_left), len(self.grid_right[0])
-       for r in range(rows):
-           for c in range(cols):
-               if (self.grid_left[r][c].get_state() == SquareState.LIVE and  (r,c) not in visited):
-                   blocks_to_set.append(self.grid_left[r][c])
-                   bfs(r,c, visited, rows, cols, self.grid_left)
-        
-               
+    ## TODO: check live->set squares and delete island squares after collision
+    # def check_setblocks(self): # TO-DO: Problem Code
+    #    blocks_to_set = []
+    #    visited = set()
+    #    rows, cols = len(self.grid_left), len(self.grid_right[0])
+    #    for r in range(rows):
+    #        for c in range(cols):
+    #            if (self.grid_left[r][c].get_state() == SquareState.LIVE and  (r,c) not in visited):
+    #                blocks_to_set.append(self.grid_left[r][c])
+    #                bfs(r,c, visited, rows, cols, self.grid_left)
+    
+    ##TODO: Add this to update
+    def check_invincible(self, grid):
+        # loop through each row
+        for i in grid:
+            invincible = True
+            # look for empties in a row
+            for j in grid[i]:
+                if grid[i][j] == None:
+                    invincible = False
+            # if no empties, then make row invincible
+            for j in grid[i]:
+                grid[i][j].set_state = SquareState.INVINCIBLE
    
     def player_wins(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
        pyxel.text(0, 0, "PLAYER {winning_player} WINS!")
