@@ -80,7 +80,8 @@ class Square:
     def get_state(self):
         return self.state
     
-    def update(self, new_x, new_y):
+    def update(self, new_x, new_y, grid):
+        grid.destroy_square(self.x, self.y)
         self.x = new_x
         self.y = new_y
     

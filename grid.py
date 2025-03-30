@@ -36,10 +36,10 @@ class Grid:
         return self.grid
     
     def destroy_square(self, x, y):
-        self.grid[x][y] = None
+        self.grid[y][x] = None
 
     def spawn_block(self, index, player):
-        return Block(Grid.block_list[index], (self.width / 2, self.height - 1), player, self)
+        return Block(Grid.block_list[index], (self.width // 2, self.height - 2), player, self)
     
     def add_square(self, square, x, y):
         print("AHHHHH X")
