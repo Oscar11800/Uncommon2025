@@ -23,7 +23,7 @@ class Block:
         self.type = type
         x = location[0]
         y = location[1]
-        self.squares = [square.Square(x, y, grid.SQUARE_SIZE, color)]*4
+        self.squares = [square.Square(x, y, grid.square_size, color)]*4
         self.rotation_state = 0
         self.is_live = 1
         self.grid = grid
