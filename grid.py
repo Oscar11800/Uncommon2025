@@ -40,6 +40,9 @@ class Grid:
     def spawn_block(self, index):
         Block(Grid.block_list[index], (self.width / 2, self.height - 1), 0, self)
     
+    def add_square(self, square, x, y):
+        self.grid[x][y] = square
+        
     def reinforce_squares(self, x):
         for square in self.grid()[x]:
             square.set_state(SquareState.INVINCIBLE)

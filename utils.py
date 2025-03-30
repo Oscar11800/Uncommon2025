@@ -1,5 +1,21 @@
+from collections import deque
 import pyxel
 from square_state import SquareState
+
+def bfs(r, c, visited, rows, cols, grid):
+    q = deque()
+    visited.add((r, c))
+    q.append((r, c))
+
+    while q:
+        row, col = q.popleft()
+        directions = [[1,0],[-1,0],[0,1],[0,-1]]
+
+        for dr, dc in directions:
+            r, c = row + dr, col + dc
+            if 0 <= r < rows and 0 <= c < cols and grid[r][c] == "1" and (r, c) not in visited:
+                q.append((r, c))
+                visited.add((r, c))
 
 def render_centered_text(string, color, width, height):
     text_width = len(string) * pyxel.FONT_WIDTH

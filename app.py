@@ -3,7 +3,7 @@ from square import Square
 from square_state import SquareState
 from ball import Ball
 from paddle import Paddle
-from utils import render_centered_text, horizontal_or_vertical_collision
+from utils import render_centered_text, horizontal_or_vertical_collision, bfs
 from grid import Grid
 from playsound import playsound
 import threading
@@ -74,6 +74,7 @@ class App:
         
         pyxel.run(self.update, self.draw_game)
     
+    # Initiatiate game timer, ball velocity, and start dropping blocks
     def start_game(self):
         self.game_running = True
         self.start_time = time.time()
@@ -126,7 +127,16 @@ class App:
                   
                   
     def check_setblocks(self): # TO-DO: convert live blocks 
-       pass
+       blocks_to_set = []
+       visited = set()
+       rows, cols = len(self.grid_left), len(self.grid_right[0])
+       for r in range(rows):
+           for c in range(cols):
+               if (self.grid_left[r][c].get_state() == SquareState.LIVE and  (r,c) not in visited):
+                   blocks_to_set.append(self.grid_left[r][c])
+                   bfs(r,c, visited, rows, cols, self.grid_left)
+        
+               
    
     def player_wins(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
        pyxel.text(0, 0, "PLAYER {winning_player} WINS!")
