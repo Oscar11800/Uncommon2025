@@ -11,16 +11,16 @@ def not_inv(sq):
   
 # Returns [T/F,T/F,T/F,T/F] indicating whether above / below / left / right 
 # squares are occupied
-def calculate_adjacent_squares(x,y,grid):
+def calculate_adjacent_squares(y,x,grid):
     ret = [False] * 4
     if y < len(grid[x]) - 1 and (sq := grid[x][y+1]) is not None and not_inv(sq):
-        ret[0] = True
-    if y > 0 and (sq := grid[x][y-1]) is not None and not_inv(sq):
-        ret[1] = True
-    if x > 0 and (sq := grid[x-1][y]) is not None and not_inv(sq):
         ret[2] = True
-    if x < len(grid) - 1 and (sq := grid[x+1][y] is not None) and not_inv(sq):
+    if y > 0 and (sq := grid[x][y-1]) is not None and not_inv(sq):
         ret[3] = True
+    if x > 0 and (sq := grid[x-1][y]) is not None and not_inv(sq):
+        ret[1] = True
+    if x < len(grid) - 1 and (sq := grid[x+1][y]) is not None and not_inv(sq):
+        ret[0] = True
     return ret
 
 def distance(x1, y1, x2, y2):
