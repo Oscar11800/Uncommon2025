@@ -84,10 +84,10 @@ class Square:
         self.x = new_x
         self.y = new_y
     
-    def update_pixels(self, new_pix_x, new_pix_y):
+    def update_pixels(self, new_pix_x, new_pix_y, grid):
         self.pix_x = new_pix_x
         self.pix_y = new_pix_y
-        self.draw()
+        self.draw(grid)
 
     def get_x(self):
         return self.x

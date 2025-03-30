@@ -27,7 +27,7 @@ class Block:
         pix_y = grid.pix_height - grid.y_pix_offset_bot - (grid.square_size * (y+1))
         self.squares = [square.Square(x, y, pix_x, pix_y, grid.square_size, color)]*4
         self.rotation_state = 0
-        self.is_live = 1
+        self.is_live = True
         self.grid = grid
         self.originX = x
         self.originY = y
@@ -87,7 +87,7 @@ class Block:
                                               self.grid.pix_height - self.grid.y_pix_offset_bot +
                                               (self.grid.square_size * self.squares[i].get_y()))
             if (self.grid.get_grid()[int(prev_y - 1)][int(self.squares[i].get_x())]!= None):
-                self.is_live = 0
+                self.is_live = False
         self.draw()
 
     def draw(self):
@@ -292,20 +292,24 @@ class Block:
         Block.blocks_speed = new_speed
     
     def move_down(self):
+        if not self.is_live:
+            return
+
         self.originY -= 1
         for i in range(len(self.squares)):
             prev_y = self.squares[i].get_y()
             self.squares[i].update(self.squares[i].get_x(), prev_y - 1)
             
-            self.squares[i].update_pixels(self.grid.x_pix_offset_left, self.grid.pix_height - self.grid.y_pix_offset_bot - (self.grid.square_size * (self.squares[i].get_y()+1)))
+            self.squares[i].update_pixels(self.grid.x_pix_offset_left, self.grid.pix_height - self.grid.y_pix_offset_bot - (self.grid.square_size * (self.squares[i].get_y()+1)), self.grid)
             
-            if (self.grid.get_grid()[int(self.squares[i].get_x())][int(prev_y - 1)]!= None):
-                self.is_live = 0
+            if (self.grid.get_grid()[int(prev_y - 1)][int(self.squares[i].get_x())] != None or self.squares[i].get_y() <= 1):
+                self.is_live = False
+                print("FUCK")
         self.draw()
 
     def draw(self):
         for sq in self.squares:
-            sq.draw(self.grid.get_grid())
+            sq.draw(self.grid)
 
     def destroy(self):
         for sq in self.squares:
