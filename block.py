@@ -23,7 +23,9 @@ class Block:
         self.type = type
         x = location[0]
         y = location[1]
-        self.squares = [square.Square(x, y, grid.SQUARE_SIZE, color)]*4
+        u = grid.x_pix_offset_left + (grid.square_size * x)
+        v = grid.pix_height - grid.y_pix_offset_bot + (grid.square_size * v)
+        self.squares = [square.Square(x, y, u, v, grid.square_size, color)]*4
         self.rotation_state = 0
         self.is_live = 1
         self.grid = grid
