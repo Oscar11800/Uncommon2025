@@ -89,10 +89,15 @@ class App:
                     self.game_ball.position[0], self.game_ball.position[1], 
                     square.x, square.y, self.game_ball.length
                   )
-                  print(here)
+                  # if vertical, then invert the horizontal component of velocity
+                  self.game_ball.vector[0] *= -1
+                  # if horizontal, invert the vertical component
+                  self.game_ball.vector[0] *= -1
+                  # also remove this square
+                  square.state = SquareState.DEAD
                   
                   
-    def check_setblocks(self):
+    def check_setblocks(self): # TO-DO: convert live blocks 
        pass
     def player_wins(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
        pyxel.text(0, 0, "PLAYER {winning_player} WINS!")
@@ -102,7 +107,6 @@ class App:
            self.player_wins(1)
         elif self.grid_right.check_win(WINNING_HEIGHT):
            self.player_wins(2)
-
     def fix_missing_live_blocks(self): # checks if either grid is missing a live block and respawns one if so
         if not self.grid_left.has_live():
           self.grid_left.spawn_block(self.player1_block_index)
@@ -120,7 +124,7 @@ class App:
           self.make_square(5, 0, 1).set_state(SquareState.INVINCIBLE)
           self.make_square(0, 1, 1)
           self.make_square(2, 0, 2)
-        self.x = (self.x + 1) % pyxel.width
+        self.x = self.x + 1
         
     def draw(self):
         pyxel.cls(0)
