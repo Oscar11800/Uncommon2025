@@ -1,4 +1,5 @@
 import pyxel
+import random
 from square import Square
 from square import SquareState
 from block import Block
@@ -6,8 +7,9 @@ import math
 import random
 
 class Grid:
+    block_list = random.choices(range(1, 8), k=500) # generate 500 random block types
+
     def __init__(self, square_size, height, width, x_pix_offset_left, y_pix_offset_top, y_pix_offset_bot):
-        self.block_list = random.choices(range(1, 8), k=500) # generate 500 random block types
         self.height = height # in terms of grid spaces
         self.width = width
         
@@ -19,8 +21,10 @@ class Grid:
         self.y_pix_offset_bot = y_pix_offset_bot
         self.y_pix_offset_top = y_pix_offset_top
         
-        self.grid = [[]]
-        self.init_grid()
+
+        self.grid = [[None] * width for _ in range(height)] # 2D list of squares
+        # self.init_grid()
+
     
     def init_grid(self):
         for i in range(self.height):
@@ -34,7 +38,7 @@ class Grid:
         self.grid[x][y] = None
 
     def spawn_block(self, index):
-        Block(self.block_list[index], (self.width / 2, self.height - 1), 0, self)
+        Block(Grid.block_list[index], (self.width / 2, self.height - 1), 0, self)
     
     def reinforce_squares(self, x):
         for square in self.grid()[x]:
