@@ -125,21 +125,20 @@ class App:
         if not self.grid_right.has_live():
           self.grid_right.spawn_block(self.player2_block_index)
 
-    # Update/Rendering
     def update(self):
         if self.x == 0:
-          self.make_square(0, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(1, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(2, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(3, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(4, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(5, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(0, 5, 1)
-          self.make_square(0, 7, 1)
-          self.make_square(0, 4, 1)
-          self.make_square(0, 1, 1)
-          self.make_square(2, 0, 2)
-          self.game_ball.set_vector([1, 0])
+        #   self.make_square(0, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(1, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(2, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(3, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(4, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(5, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(0, 5, 1)
+        #   self.make_square(0, 7, 1)
+        #   self.make_square(0, 4, 1)
+        #   self.make_square(0, 1, 1)
+        #   self.make_square(2, 0, 2)
+          self.game_ball.set_vector([1, 1])
         self.x = self.x + 1
 
         self.paddles[0].update()
@@ -176,6 +175,7 @@ class App:
         # Draw background name
         render_centered_text("TETRIS", 4, self.w -16, self.h)
         render_centered_text("N'T", 6, self.w + 20, self.h)
+
         # Calculate platform location
         left_start = self.platform_l_x
         right_start = self.platform_r_x
@@ -187,6 +187,10 @@ class App:
         pyxel.rect(left_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 2)
         pyxel.rect(right_start, self.h - platform_h, platform_w, platform_h, 1)
         pyxel.rect(right_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 2)
+
+        # Render Win-Line
+        pyxel.rect(left_start, self.h - WINNING_HEIGHT, platform_w, 2, 2)
+        pyxel.rect(right_start, self.h - WINNING_HEIGHT, platform_w, 2, 2)
         
         # Remove the top border of the bottom platform if there are other invincible rows
         if self.grid_left.grid[0][0] is not None and self.grid_left.grid[0][0].state == SquareState.INVINCIBLE:
