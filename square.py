@@ -79,12 +79,14 @@ class Square:
 
     def get_state(self):
         return self.state
-        
+    
     def update(self, new_x, new_y):
         self.x = new_x
         self.y = new_y
-
-        # update u and v as well
+    
+    def update_pixels(self, new_pix_x, new_pix_y):
+        self.pix_x = new_pix_x
+        self.pix_y = new_pix_y
         self.draw()
 
     def get_x(self):

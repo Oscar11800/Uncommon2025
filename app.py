@@ -167,10 +167,10 @@ class App:
            
     def fix_missing_live_blocks(self): # checks if either grid is missing a live block and respawns one if so
         if not self.grid_left.has_live():
-          self.grid_left.spawn_block(self.player1_block_index)
+          self.grid_left.spawn_block(self.player1_block_index, 1)
           self.player1_block_index += 1
         if not self.grid_right.has_live():
-          self.grid_right.spawn_block(self.player2_block_index)
+          self.grid_right.spawn_block(self.player2_block_index, 2)
           self.player2_block_index += 1
 
     def update(self):
@@ -192,9 +192,9 @@ class App:
         #   self.make_square(0, 4, 1)
         #   self.make_square(0, 1, 1)
         #   self.make_square(2, 0, 2)
-            self.left_live_block = self.grid_left.spawn_block(self.player1_block_index)
+            self.left_live_block = self.grid_left.spawn_block(self.player1_block_index, 1)
             # I was here.
-            self.right_live_block = self.grid_right.spawn_block(self.player2_block_index)
+            self.right_live_block = self.grid_right.spawn_block(self.player2_block_index, 2)
             self.game_ball.set_vector([1, 0])
           
         if(self.game_running):

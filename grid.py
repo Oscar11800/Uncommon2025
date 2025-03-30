@@ -37,8 +37,8 @@ class Grid:
     def destroy_square(self, x, y):
         self.grid[x][y] = None
 
-    def spawn_block(self, index):
-        return Block(Grid.block_list[index], (self.width / 2, self.height - 1), 0, self)
+    def spawn_block(self, index, player):
+        return Block(Grid.block_list[index], (self.width / 2, self.height - 1), player, self)
     
     def add_square(self, square, x, y):
         self.grid[x][y] = square
