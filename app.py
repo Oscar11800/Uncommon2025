@@ -84,6 +84,7 @@ class App:
           0x853D3B, 0xEF6351, 0x2D283E
         ])
         self.curr_frame = 0
+        self.start_time = None
         
         self.game_running = False
         
@@ -155,15 +156,15 @@ class App:
         
                
    
-    def player_wins(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
-       pyxel.text(0, 0, "PLAYER {winning_player} WINS!")
-       pyxel.quit()
+    def end_game(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
+       self.game_running = False
+       pyxel.text(self.h // 2, self.w // 2, "PLAYER {winning_player} WINS!", )
        
     def check_win_con(self):
         if self.grid_left.check_win(WINNING_HEIGHT):
-           self.player_wins(1)
+           self.end_game(1)
         elif self.grid_right.check_win(WINNING_HEIGHT):
-           self.player_wins(2)
+           self.end_game(2)
            
     def fix_missing_live_blocks(self): # checks if either grid is missing a live block and respawns one if so
         if not self.grid_left.has_live():
@@ -207,7 +208,9 @@ class App:
             self.check_collisions()
             # update ball
             self.game_ball.set_position((self.game_ball.position[0] + self.game_ball.vector[0], self.game_ball.position[1] + self.game_ball.vector[1]))
-        self.fix_missing_live_blocks()
+            self.check_win_con()
+            if(self.game_running):               
+                self.fix_missing_live_blocks()
 
         if self.player1_block_index >= 1 or self.player2_block_index >= 1:
           self.music.join()
