@@ -89,12 +89,18 @@ class App:
                     square.x, square.y, self.game_ball.length
                   )
                   # if vertical, then invert the horizontal component of velocity
-                  self.game_ball.vector[0] *= -1
+                  self.game_ball.vector[1] *= -1
                   # if horizontal, invert the vertical component
                   self.game_ball.vector[0] *= -1
                   # also remove this square
                   if square.state == SquareState.LIVE:
+                    print("dead square")
                     square.state = SquareState.DEAD
+        for i in range(len(active_grid.grid)):
+            for j in range(len(active_grid.grid[i])):
+                square = self.grid_left.grid[i][j]
+                if square is not None and square.state == SquareState.DEAD:
+                    self.grid_left.destroy_square(i, j)
         if self.game_ball.position[1] <= 0:
             self.game_ball.vector[1] *= -1
         if self.game_ball.position[1] >= self.h - self.game_ball.length:
