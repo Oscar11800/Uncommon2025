@@ -60,6 +60,10 @@ class App:
         self.player1_block_index = 0
         self.player2_block_index = 0
 
+        # Instantiate live blocks
+        self.left_live_block = None
+        self.right_live_block = None
+
         # Initialize and report assets
         pyxel.init(self.w, self.h)
         pyxel.load("./assets/block.pyxres")
@@ -75,7 +79,7 @@ class App:
         pyxel.run(self.update, self.draw_game)
     
     def start_game(self):
-        self.game_running = True
+        self.game_running = False
         self.start_time = time.time()
         
     
@@ -152,18 +156,21 @@ class App:
                 
         
         if self.curr_frame == 0:
-          self.make_square(0, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(1, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(2, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(3, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(4, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(5, 0, 1).set_state(SquareState.INVINCIBLE)
-          self.make_square(0, 5, 1)
-          self.make_square(0, 7, 1)
-          self.make_square(0, 4, 1)
-          self.make_square(0, 1, 1)
-          self.make_square(2, 0, 2)
-          self.game_ball.set_vector([1, 0])
+        #   self.make_square(0, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(1, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(2, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(3, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(4, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(5, 0, 1).set_state(SquareState.INVINCIBLE)
+        #   self.make_square(0, 5, 1)
+        #   self.make_square(0, 7, 1)
+        #   self.make_square(0, 4, 1)
+        #   self.make_square(0, 1, 1)
+        #   self.make_square(2, 0, 2)
+            self.left_live_block = self.grid_left.spawn_block(self.player1_block_index)
+            # I was here.
+            self.right_live_block = self.grid_right.spawn_block(self.player2_block_index)
+            self.game_ball.set_vector([1, 0])
           
         if(self.game_running):
             self.curr_frame = self.curr_frame + 1
