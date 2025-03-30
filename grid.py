@@ -8,7 +8,7 @@ import math
 class Grid:
     block_list = random.choices(range(1, 8), k=500) # generate 500 random block types
 
-    def __init__(self, square_size, height, width, x_pix_offset_left, y_pix_offset_top, y_pix_offset_bot, app):
+    def __init__(self, square_size, height, width, x_pix_offset_left, y_pix_offset_top, y_pix_offset_bot):
         self.height = height # in terms of grid spaces
         self.width = width
         
@@ -19,8 +19,6 @@ class Grid:
         self.x_pix_offset_left = x_pix_offset_left
         self.y_pix_offset_bot = y_pix_offset_bot
         self.y_pix_offset_top = y_pix_offset_top
-
-        self.app = app
         
         self.grid = [[]]
         self.init_grid()
