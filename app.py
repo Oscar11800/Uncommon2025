@@ -7,6 +7,7 @@ from utils import render_centered_text, horizontal_or_vertical_collision
 from grid import Grid
 from playsound import playsound
 import threading
+import os
 
 # Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
@@ -22,9 +23,15 @@ class App:
     # w = width, h = height, square_size, grid_width_in_squares, platform_height, platform_width,
     # platform_l_x, platform_r_x, grid_left, game_ball
 
+    def music(sound):
+        while True:
+          playsound(sound)
+
     def __init__(self):
         # avoid delays on first sound play
-        threading.Thread(target=playsound, args=('assets\\silent_quarter-second.wav',), daemon=True).start()
+        #threading.Thread(target=playsound, args=('assets\\silent_quarter-second.wav',), daemon=True).start()
+
+        threading.Thread(target=App.music, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',), daemon=True).start()
 
         # Config game window
         self.w = 192
@@ -102,6 +109,8 @@ class App:
                     print("dead square")
                     square.state = SquareState.DEAD
                     threading.Thread(target=playsound, args=('assets\\non_invincible_block_hit.wav',), daemon=True).start()
+                  elif square.state == SquareState.INVINCIBLE:
+                    threading.Thread(target=playsound, args=('assets\\invincible_block_hit.wav',), daemon=True).start()
         for paddle in self.paddles: # collisions are all horizontal
            if self.game_ball.position[0] == paddle.x + 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
               self.game_ball.vector[0] *= -1
@@ -153,6 +162,7 @@ class App:
           self.make_square(0, 1, 1)
           self.make_square(2, 0, 2)
           self.game_ball.set_vector([1, 0])
+          #threading.Thread(target=playsound, args=('assets\\make_invincible_line.wav',), daemon=True).start()
         self.x = self.x + 1
 
         self.paddles[0].update()
