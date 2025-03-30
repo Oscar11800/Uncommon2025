@@ -25,7 +25,11 @@ class Block:
         y = location[1]
         pix_x = grid.x_pix_offset_left
         pix_y = grid.pix_height - grid.y_pix_offset_bot - (grid.square_size * (y+1))
-        self.squares = [square.Square(x, y, pix_x, pix_y, grid.square_size, color)]*4
+        # self.squares = [square.Square(x, y, pix_x, pix_y, grid.square_size, color)]*4
+        self.squares = [square.Square(x, y, pix_x, pix_y, grid.square_size, color),
+                        square.Square(x, y, pix_x, pix_y, grid.square_size, color),
+                        square.Square(x, y, pix_x, pix_y, grid.square_size, color),
+                        square.Square(x, y, pix_x, pix_y, grid.square_size, color)]
         self.rotation_state = 0
         self.is_live = True
         self.grid = grid
