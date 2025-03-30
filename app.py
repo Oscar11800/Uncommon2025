@@ -9,6 +9,8 @@ from playsound import playsound
 import threading
 import os
 import time
+import multiprocessing
+from music import Music
 
 # Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
@@ -20,14 +22,21 @@ BALL_LENGTH = 2
 # players (pong paddles)
 
 class App:
+    # if __name__ == '__main__':
+    #   # setting start method as spawn
+    #   multiprocessing.set_start_method('spawn')
+    #   print(multiprocessing.get_start_method())
+
     # Game Object List
     # w = width, h = height, square_size, grid_width_in_squares, platform_height, platform_width,
     # platform_l_x, platform_r_x, grid_left, game_ball
     music_changed = False
 
-    def music(sound):
-        while True:
-          playsound(sound)
+    # def music(sound):
+    #   # if __name__ != '__main__':
+    #   #while not self.music_should_stop.is_set():
+    #     while True:
+    #       playsound(sound)
 
     def __init__(self):
         # avoid delays on first sound play
@@ -35,7 +44,16 @@ class App:
 
         self.game_speed = 1
 
-        self.music = threading.Thread(target=App.music, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',), daemon=True).start()
+        #self.music_should_stop = threading.Event()
+
+        if __name__ == '__main__':
+          # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
+          self.music_process = Music(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3')
+          self.music_process.daemon=True
+          self.music_process.start()
+        else:
+          return
+          #Music.run(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3')
 
         # Config game window
         self.w = 192
@@ -211,9 +229,21 @@ class App:
             self.game_ball.set_position((self.game_ball.position[0] + self.game_ball.vector[0], self.game_ball.position[1] + self.game_ball.vector[1]))
         # self.fix_missing_live_blocks()
 
-        if not App.music_changed and (self.player1_block_index >= 1 or self.player2_block_index >= 1): # CHANGE THESE NUMBERS TO ~10
-          self.music.join()
-          self.music = threading.Thread(target=App.music, args=(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3',), daemon=True).start()
+        if not App.music_changed and (self.player1_block_index >= 0 or self.player2_block_index >= 1): # CHANGE THESE NUMBERS TO ~10
+          if __name__ == '__main__':
+            self.music_process.terminate()
+            # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
+            self.music_process = Music(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3')
+            self.music_process.daemon=True
+            self.music_process.start()
+          # else:
+          #   Music.run(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3')
+          # if __name__ == '__main__':
+          #   #self.music_should_stop.set()
+          #   self.music_process.terminate()
+          #   #self.music_should_stop = threading.Event()
+          #   self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3',))
+          #   self.music_process.start()
           App.music_changed = True
         
         if self.player1_block_index / 10 >= self.game_speed or self.player2_block_index / 10 >= self.game_speed:
