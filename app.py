@@ -46,7 +46,7 @@ class App:
         self.grid_right = Grid(self.square_size, self.grid_height_in_squares, self.grid_width_in_squares, self.platform_r_x, 0, self.platform_height_pix)
 
         # Instantiate paddles
-        self.paddles = [Paddle(self.w,self.h, 1), Paddle(self.w, self.h, 2)]
+        self.paddles = [Paddle(self.w,self.h, 0), Paddle(self.w, self.h, 1)]
         
         # Instantiate ball
         ball_init_x = (self.w // 2) - (BALL_LENGTH // 2)
@@ -125,6 +125,9 @@ class App:
           self.make_square(0, 1, 1)
           self.make_square(2, 0, 2)
         self.x = self.x + 1
+
+        self.paddles[0].update()
+        self.paddles[1].update()
         
     def draw(self):
         pyxel.cls(0)
