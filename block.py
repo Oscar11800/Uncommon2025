@@ -23,127 +23,20 @@ class Block:
         self.type = type
         x = location[0]
         y = location[1]
-        pix_x = grid.x_pix_offset_left + (grid.square_size * x)
-        pix_y = grid.pix_height - grid.y_pix_offset_bot + (grid.square_size * y)
+        pix_x = grid.x_pix_offset_left
+        pix_y = grid.pix_height - grid.y_pix_offset_bot - (grid.square_size * (y+1))
         self.squares = [square.Square(x, y, pix_x, pix_y, grid.square_size, color)]*4
         self.rotation_state = 0
         self.is_live = 1
         self.grid = grid
-        
-        match type:
-            case BlockType.O:
-                self.squares[1].update(x + 1, y)
-                self.squares[1].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[1].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[1].get_y()))
-                self.squares[2].update(x, y + 1)
-                self.squares[2].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[2].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[2].get_y()))
-                self.squares[3].update(x + 1, y + 1)
-                self.squares[3].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[3].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[3].get_y()))
-                self.originX = x + 0.5
-                self.originY = y + 0.5
-            case BlockType.I:
-                self.squares[1].update(x + 1, y)
-                self.squares[1].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[1].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[1].get_y()))
-                self.squares[2].update(x + 2, y)
-                self.squares[2].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[2].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[2].get_y()))
-                self.squares[3].update(x + 3, y)
-                self.squares[3].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[3].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[3].get_y()))
-                self.originX = x + 1.5
-                self.originY = y - 0.5
-            case BlockType.S:
-                self.squares[1].update(x + 1, y)
-                self.squares[1].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[1].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[1].get_y()))
-                self.squares[2].update(x + 1, y + 1)
-                self.squares[2].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[2].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[2].get_y()))
-                self.squares[3].update(x + 2, y + 1)
-                self.squares[3].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[3].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[3].get_y()))
-                self.originX = x + 1
-                self.originY = y
-            case BlockType.Z:
-                self.squares[1].update(x + 1, y)
-                self.squares[1].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[1].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[1].get_y()))
-                self.squares[2].update(x + 1, y - 1)
-                self.squares[2].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[2].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[2].get_y()))
-                self.squares[3].update(x + 2, y - 1)
-                self.squares[3].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[3].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[3].get_y()))
-                self.originX = x + 1
-                self.originY = y - 1
-            case BlockType.L:
-                self.squares[1].update(x + 1, y)
-                self.squares[1].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[1].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[1].get_y()))
-                self.squares[2].update(x + 2, y)
-                self.squares[2].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[2].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[2].get_y()))
-                self.squares[3].update(x + 2, y + 1)
-                self.squares[3].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[3].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[3].get_y()))
-                self.originX = x + 1
-                self.originY = y
-            case BlockType.J:
-                self.squares[1].update(x, y - 1)
-                self.squares[1].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[1].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[1].get_y()))
-                self.squares[2].update(x + 1, y - 1)
-                self.squares[2].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[2].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[2].get_y()))
-                self.squares[3].update(x + 2, y - 1)
-                self.squares[3].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[3].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[3].get_y()))
-                self.originX = x + 1
-                self.originY = y - 1
-            case BlockType.T:
-                self.squares[1].update(x + 1, y)
-                self.squares[1].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[1].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[1].get_y()))
-                self.squares[2].update(x + 1, y + 1)
-                self.squares[2].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[2].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[2].get_y()))
-                self.squares[3].update(x + 2, y)
-                self.squares[2].update_pixels(grid.x_pix_offset_left + (grid.square_size * self.squares[3].get_x()),
-                                              grid.pix_height - grid.y_pix_offset_bot +
-                                              (grid.square_size * self.squares[3].get_y()))
-                self.originX = x + 1
-                self.originY = y
-
+        self.originX = x
+        self.originY = y
         for current_square in self.squares:
             #self.grid.grid[(int)(self.squares[i-1].get_x())][(int)(self.squares[i-1].get_y())] = self.squares[i-1]
             current_square.print_square()
+            print(f"TYPEEEEEEEEE: {self.type}")
             self.grid.print_grid()
             self.grid.add_square(current_square, (int)(current_square.get_x()), (int)(current_square.get_y()))
-        
-        self.draw()
 
     def _rotate_helper(self, x, y, s):
         x -= self.originX
@@ -187,14 +80,12 @@ class Block:
     
     def move_down(self):
         self.originY -= 1
-
-        for i in len(self.squares):
-            prev_x = self.squares[i].getX()
-            prev_y = self.squares[i].getY()
-            self.squares[i].update(prev_x, prev_y - 1)
-
-            if (self.grid[prev_x, prev_y - 1] != None):
+        for i in range(len(self.squares)):
+            prev_y = self.squares[i].get_y()
+            self.squares[i].update(self.squares[i].get_x(), prev_y - 1)
+            if (self.grid.get_grid()[int(prev_y - 1)][int(self.squares[i].get_x())]!= None):
                 self.is_live = 0
+        self.draw()
 
     def draw(self):
         for sq in self.squares:
@@ -221,6 +112,7 @@ class Block:
                 sq.update(sq.getX() + 1, sq.getY())
 
     def update(self):
+        
         if not self.is_live:
             return
 
@@ -241,3 +133,113 @@ class Block:
             self.slide(Direction.LEFT)
         if pyxel.btn(pyxel.KEY_L) and self.player == 1:
             self.slide(Direction.RIGHT)
+        
+        match type:
+            case BlockType.O:
+                self.squares[1].update(self.x + 1, self.y)
+                self.squares[1].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[1].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[1].get_y()))
+                self.squares[2].update(self.x, self.y + 1)
+                self.squares[2].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[2].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[2].get_y()))
+                self.squares[3].update(self.x + 1, self.y + 1)
+                self.squares[3].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[3].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[3].get_y()))
+                self.originX = self.x + 0.5
+                self.originY = self.y + 0.5
+            case BlockType.I:
+                self.squares[1].update(self.x + 1, self.y)
+                self.squares[1].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[1].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[1].get_y()))
+                self.squares[2].update(self.x + 2, self.y)
+                self.squares[2].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[2].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[2].get_y()))
+                self.squares[3].update(self.x + 3, self.y)
+                self.squares[3].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[3].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[3].get_y()))
+                self.originX = self.x + 1.5
+                self.originY = self.y - 0.5
+            case BlockType.S:
+                self.squares[1].update(self.x + 1, self.y)
+                self.squares[1].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[1].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[1].get_y()))
+                self.squares[2].update(self.x + 1, self.y + 1)
+                self.squares[2].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[2].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[2].get_y()))
+                self.squares[3].update(self.x + 2, self.y + 1)
+                self.squares[3].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[3].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[3].get_y()))
+                self.originX = self.x + 1
+                self.originY = self.y
+            case BlockType.Z:
+                self.squares[1].update(self.x + 1, self.y)
+                self.squares[1].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[1].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[1].get_y()))
+                self.squares[2].update(self.x + 1, self.y - 1)
+                self.squares[2].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[2].get_x()),
+                                              self.grid.pix_height - self.rid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[2].get_y()))
+                self.squares[3].update(self.x + 2, self.y - 1)
+                self.squares[3].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[3].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[3].get_y()))
+                self.originX = self.x + 1
+                self.originY = self.y - 1
+            case BlockType.L:
+                self.squares[1].update(self.x + 1, self.y)
+                self.squares[1].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[1].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[1].get_y()))
+                self.squares[2].update(self.x + 2, self.y)
+                self.squares[2].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[2].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[2].get_y()))
+                self.squares[3].update(self.x + 2, self.y + 1)
+                self.squares[3].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[3].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[3].get_y()))
+                self.originX = self.x + 1
+                self.originY = self.y
+            case BlockType.J:
+                self.squares[1].update(self.x, self.y - 1)
+                self.squares[1].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[1].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[1].get_y()))
+                self.squares[2].update(self.x + 1, self.y - 1)
+                self.squares[2].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[2].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[2].get_y()))
+                self.squares[3].update(self.x + 2, self.y - 1)
+                self.squares[3].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[3].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[3].get_y()))
+                self.originX = self.x + 1
+                self.originY = self.y - 1
+                print("ASHASHR")
+            case BlockType.T:
+                self.squares[1].update(self.x + 1, self.y)
+                self.squares[1].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[1].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[1].get_y()))
+                self.squares[2].update(self.x + 1, self.y + 1)
+                self.squares[2].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[2].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[2].get_y()))
+                self.squares[3].update(self.x + 2, self.y)
+                self.squares[2].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[3].get_x()),
+                                              self.grid.pix_height - self.grid.y_pix_offset_bot +
+                                              (self.grid.square_size * self.squares[3].get_y()))
+                self.originX = self.x + 1
+                self.originY = self.y
+        
+        self.draw()
