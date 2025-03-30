@@ -95,6 +95,11 @@ class App:
                   # also remove this square
                   if square.state == SquareState.LIVE:
                     square.state = SquareState.DEAD
+        for paddle in self.paddles: # collisions are all horizontal
+           if self.game_ball.position[0] == paddle.x + 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
+              self.game_ball.vector[0] *= -1
+           if self.game_ball.position[0] == paddle.x - 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
+              self.game_ball.vector[0] *= -1
         if self.game_ball.position[1] <= 0:
             self.game_ball.vector[1] *= -1
         if self.game_ball.position[1] >= self.h - self.game_ball.length:
