@@ -118,8 +118,8 @@ class App:
     # Check/Fix Functions
     def check_collisions(self):
         active_grid = self.grid_left if self.game_ball.position[0] < self.w // 2 else self.grid_right
-        min_x, max_x = self.game_ball.position[0], self.game_ball.position[0] + self.game_ball.length
-        min_y, max_y = self.game_ball.position[1], self.game_ball.position[1] + self.game_ball.length
+        min_x, max_x = self.game_ball.position[0] - 1, self.game_ball.position[0] + self.game_ball.length + 1
+        min_y, max_y = self.game_ball.position[1] - 1, self.game_ball.position[1] + self.game_ball.length + 1
         ball_cords = set([(i,j) for i in range((int) (min_x), (int) (max_x+1)) for j in range((int) (min_y), (int) (max_y+1))])
         for square in [square for row in active_grid.grid for square in row]:
             if square is not None:
