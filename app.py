@@ -5,6 +5,7 @@ from ball import Ball
 from paddle import Paddle
 from block import Block
 from utils import render_centered_text, horizontal_or_vertical_collision, bfs
+from collections import deque
 from grid import Grid
 from playsound import playsound
 import threading
@@ -62,10 +63,10 @@ class App:
         self.h = 108
         
         # Set pixel size of square
-        self.square_size = self.w // 25
+        self.square_size = self.w // 50
         
         # Set grid size in squares
-        self.grid_width_in_squares = 6
+        self.grid_width_in_squares = 12
         self.grid_height_in_squares = 20
         
         # Set platform dimensions
@@ -181,6 +182,23 @@ class App:
     #                blocks_to_set.append(self.grid_left[r][c])
     #                bfs(r,c, visited, rows, cols, self.grid_left)
     
+    def set_live_blocks(r, c, visited, rows, cols, grid):
+     q = deque()
+     visited.add((r, c))
+     q.append((r, c))
+
+     while q:
+         row, col = q.popleft()
+         directions = [[1,0],[-1,0],[0,1],[0,-1]]
+
+         for dr, dc in directions:
+             r, c = row + dr, col + dc
+             if 0 <= r < rows and 0 <= c < cols and (grid.grid[r][c] is not None)  and (r, c) not in visited:
+                 if(grid.grid[r][c].get_state() == 1):
+                    grid.grid[r][c].set_state(0)
+                 q.append((r, c))
+                 visited.add((r, c))
+
     ##TODO: Add this to update
     def check_invincible(self, grid):
         # loop through each row
@@ -194,9 +212,9 @@ class App:
             for j in grid[i]:
                 grid[i][j].set_state = SquareState.INVINCIBLE
    
-    def player_wins(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
-       pyxel.text(0, 0, "PLAYER {winning_player} WINS!")
-       pyxel.quit()
+    def end_game(self, winning_player):
+       self.game_running = False
+       pyxel.text(self.h // 2, self.w // 2, "PLAYER {winning_player} WINS!", winning_player)
        
     def check_win_con(self):
         if self.grid_left.check_win(WINNING_HEIGHT):
@@ -253,6 +271,7 @@ class App:
             if self.curr_frame % 10 == 0:
                 self.left_live_block.move_down()
                 self.right_live_block.move_down()
+            
         # self.fix_missing_live_blocks()
 
         # if not App.music_changed and (self.player1_block_index >= 1 or self.player2_block_index >= 1): # CHANGE THESE NUMBERS TO ~10
