@@ -77,10 +77,10 @@ class App:
         min_x, max_x = self.game_ball.position[0], self.game_ball.position[0] + self.game_ball.length
         min_y, max_y = self.game_ball.position[1], self.game_ball.position[1] + self.game_ball.length
         ball_cords = set([(i,j) for i in range(min_x, max_x) for j in range(min_y, max_y)])
-        for square in [square for row in active_grid for square in row]:
+        for square in [square for row in active_grid.grid for square in row]:
             if square is not None:
-                sqr_x1, sqr_y1 = square.x, square.y
-                sqr_x2, sqr_y2 = square.x + square.size, square.y + square.size
+                sqr_x1, sqr_y1 = int(square.x), int(square.y)
+                sqr_x2, sqr_y2 = int(square.x + square.size), int(square.y + square.size)
                 square_cords = set([(i,j) for i in range(sqr_x1, sqr_x2) for j in range(sqr_y1, sqr_y2)])
                 if (overlap := ball_cords.intersection(square_cords)):
                   intersect = list(overlap)[0]
@@ -93,7 +93,14 @@ class App:
                   # if horizontal, invert the vertical component
                   self.game_ball.vector[0] *= -1
                   # also remove this square
-                  square.state = SquareState.DEAD
+                  if square.state == SquareState.LIVE:
+                    square.state = SquareState.DEAD
+        if self.game_ball.position[1] <= 0:
+            self.game_ball.vector[1] *= -1
+        if self.game_ball.position[1] >= self.h - self.game_ball.length:
+            self.game_ball.vector[1] *= -1
+        if self.game_ball.position[0] <= 0 or self.game_ball.position[0] >= self.w - self.game_ball.length: 
+            self.game_ball.vector[0] *= -1
                   
                   
     def check_setblocks(self): # TO-DO: convert live blocks 
@@ -123,10 +130,16 @@ class App:
           self.make_square(5, 0, 1).set_state(SquareState.INVINCIBLE)
           self.make_square(0, 1, 1)
           self.make_square(2, 0, 2)
+          self.game_ball.set_vector([1, 0])
         self.x = self.x + 1
 
         self.paddles[0].update()
         self.paddles[1].update()
+
+        # check for collisions
+        self.check_collisions()
+        # update ball
+        self.game_ball.set_position((self.game_ball.position[0] + self.game_ball.vector[0], self.game_ball.position[1] + self.game_ball.vector[1]))
         
     def draw(self):
         pyxel.cls(0)
@@ -152,7 +165,8 @@ class App:
     def draw_game(self):
         pyxel.cls(0)
         # Draw background name
-        render_centered_text("TETRISN'T", 8, self.w, self.h)
+        render_centered_text("TETRIS", 4, self.w -16, self.h)
+        render_centered_text("N'T", 6, self.w + 20, self.h)
         # Calculate platform location
         left_start = self.platform_l_x
         right_start = self.platform_r_x
