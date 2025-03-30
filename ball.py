@@ -10,7 +10,7 @@ class Ball:
     length = 0
     active_pos_list = []
     radius = 1
-    color = 0
+    color = 3
     
     def __init__(self, speed, vector, position, length):
         self.speed = speed # need to initialize these
