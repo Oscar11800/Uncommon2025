@@ -3,7 +3,7 @@ import pyxel
 class Paddle:
     width = 1
     height = 8
-    paddle_speed = 2
+    paddle_speed = 1
 
     def __init__(self, w, h, player):
         self.bottomY = h - 20
