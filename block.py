@@ -299,7 +299,7 @@ class Block:
             
             self.squares[i].update_pixels(self.grid.x_pix_offset_left, self.grid.pix_height - self.grid.y_pix_offset_bot - (self.grid.square_size * (self.squares[i].get_y()+1)), self.grid)
             
-            if (self.grid.get_grid()[int(self.squares[i].get_x())][int(prev_y - 1)]!= None):
+            if (self.grid.get_grid()[int(prev_y - 1)][int(self.squares[i].get_x())]!= None):
                 self.is_live = 0
         self.draw()
 
