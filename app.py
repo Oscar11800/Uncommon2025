@@ -23,6 +23,9 @@ class App:
     # platform_l_x, platform_r_x, grid_left, game_ball
 
     def __init__(self):
+        # avoid delays on first sound play
+        threading.Thread(target=playsound, args=('assets\\silent_quarter-second.wav',), daemon=True).start()
+
         # Config game window
         self.w = 192
         self.h = 108
@@ -98,6 +101,7 @@ class App:
                   if square.state == SquareState.LIVE:
                     print("dead square")
                     square.state = SquareState.DEAD
+                    threading.Thread(target=playsound, args=('assets\\non_invincible_block_hit.wav',), daemon=True).start()
         for paddle in self.paddles: # collisions are all horizontal
            if self.game_ball.position[0] == paddle.x + 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
               self.game_ball.vector[0] *= -1
