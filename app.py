@@ -12,6 +12,7 @@ import os
 import time
 import multiprocessing
 from music import Music
+import math
 
 # Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
@@ -121,7 +122,7 @@ class App:
         active_grid = self.grid_left if self.game_ball.position[0] < self.w // 2 else self.grid_right
         min_x, max_x = self.game_ball.position[0], self.game_ball.position[0] + self.game_ball.length
         min_y, max_y = self.game_ball.position[1], self.game_ball.position[1] + self.game_ball.length
-        ball_cords = set([(i,j) for i in range(min_x, max_x) for j in range(min_y, max_y)])
+        ball_cords = set([(i,j) for i in range((int) (min_x), (int) (max_x+1)) for j in range((int) (min_y), (int) (max_y+1))])
         for square in [square for row in active_grid.grid for square in row]:
             if square is not None:
                 sqr_x1, sqr_y1 = int(square.x), int(square.y)
@@ -146,7 +147,14 @@ class App:
                     threading.Thread(target=playsound, args=(os.path.dirname(__file__) + '/assets/invincible_block_hit.wav',), daemon=True).start()
         for paddle in self.paddles: # collisions are all horizontal
           if self.game_ball.position[0] >= paddle.x - 1 and self.game_ball.position[0] <= paddle.x + 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
-            self.game_ball.vector[0] *= -1
+            new_angle = 0.7 * math.atan(abs(self.game_ball.position[1] - paddle.bottomY + (Paddle.height / 2)))
+            self.game_ball.vector[0] = (math.cos(new_angle) * self.game_ball.speed)
+            self.game_ball.vector[1] = (math.sin(new_angle) * self.game_ball.speed)
+            if self.game_ball.position[0] < paddle.x:
+               self.game_ball.vector[0] *= -1
+            if self.game_ball.position[1] < paddle.bottomY + (0.5 * Paddle.height):
+               self.game_ball.vector[1] *= -1
+            #self.game_ball.vector[0] *= -1
             threading.Thread(target=playsound, args=(os.path.dirname(__file__) + '/assets/paddle_hit.wav',), daemon=True).start()
           # if self.game_ball.position[0] == paddle.x - 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
           #   self.game_ball.vector[0] *= -1
