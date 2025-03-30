@@ -3,6 +3,7 @@ from square import Square
 from square_state import SquareState
 from ball import Ball
 from paddle import Paddle
+from block import Block
 from utils import render_centered_text, horizontal_or_vertical_collision, bfs
 from grid import Grid
 from playsound import playsound
@@ -86,7 +87,7 @@ class App:
         ball_init_x = (self.w // 2) - (BALL_LENGTH // 2)
         ball_init_y = (self.h // 2) - (BALL_LENGTH // 2)
         ball_init_pos = (ball_init_x, ball_init_y)
-        self.game_ball = Ball(1, (10, 10), ball_init_pos, BALL_LENGTH)
+        self.game_ball = Ball(1, [-1, 0], ball_init_pos, BALL_LENGTH)
 
         # Track index of each player in the list of block shapes
         self.player1_block_index = 0
@@ -140,13 +141,13 @@ class App:
                   if square.state == SquareState.LIVE:
                     print("dead square")
                     square.state = SquareState.DEAD
-                    threading.Thread(target=playsound, args=('assets\\non_invincible_block_hit.wav',), daemon=True).start()
+                    threading.Thread(target=playsound, args=('assets/non_invincible_block_hit.wav',), daemon=True).start()
                   elif square.state == SquareState.INVINCIBLE:
-                    threading.Thread(target=playsound, args=('assets\\invincible_block_hit.wav',), daemon=True).start()
+                    threading.Thread(target=playsound, args=('assets/invincible_block_hit.wav',), daemon=True).start()
         for paddle in self.paddles: # collisions are all horizontal
           if self.game_ball.position[0] >= paddle.x - 1 and self.game_ball.position[0] <= paddle.x + 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
             self.game_ball.vector[0] *= -1
-            threading.Thread(target=playsound, args=('assets\\paddle_hit.wav',), daemon=True).start()
+            threading.Thread(target=playsound, args=('asset/paddle_hit.wav',), daemon=True).start()
           # if self.game_ball.position[0] == paddle.x - 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
           #   self.game_ball.vector[0] *= -1
           #   threading.Thread(target=playsound, args=('assets\\paddle_hit.wav',), daemon=True).start()
@@ -162,18 +163,29 @@ class App:
         if self.game_ball.position[0] <= 0 or self.game_ball.position[0] >= self.w - self.game_ball.length: 
             self.game_ball.vector[0] *= -1
                   
-                  
-    def check_setblocks(self): # TO-DO: convert live blocks 
-       blocks_to_set = []
-       visited = set()
-       rows, cols = len(self.grid_left), len(self.grid_right[0])
-       for r in range(rows):
-           for c in range(cols):
-               if (self.grid_left[r][c].get_state() == SquareState.LIVE and  (r,c) not in visited):
-                   blocks_to_set.append(self.grid_left[r][c])
-                   bfs(r,c, visited, rows, cols, self.grid_left)
-        
-               
+    ## TODO: check live->set squares and delete island squares after collision
+    # def check_setblocks(self): # TO-DO: Problem Code
+    #    blocks_to_set = []
+    #    visited = set()
+    #    rows, cols = len(self.grid_left), len(self.grid_right[0])
+    #    for r in range(rows):
+    #        for c in range(cols):
+    #            if (self.grid_left[r][c].get_state() == SquareState.LIVE and  (r,c) not in visited):
+    #                blocks_to_set.append(self.grid_left[r][c])
+    #                bfs(r,c, visited, rows, cols, self.grid_left)
+    
+    ##TODO: Add this to update
+    def check_invincible(self, grid):
+        # loop through each row
+        for i in grid:
+            invincible = True
+            # look for empties in a row
+            for j in grid[i]:
+                if grid[i][j] == None:
+                    invincible = False
+            # if no empties, then make row invincible
+            for j in grid[i]:
+                grid[i][j].set_state = SquareState.INVINCIBLE
    
     def player_wins(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
        pyxel.text(0, 0, "PLAYER {winning_player} WINS!")
@@ -223,13 +235,13 @@ class App:
             self.paddles[0].update()
             self.paddles[1].update()
 
-            # check for collisions, THERE'S AN ERROR HERE
-            # self.check_collisions()
+            # check for collisions
+            self.check_collisions()
             # update ball
             self.game_ball.set_position((self.game_ball.position[0] + self.game_ball.vector[0], self.game_ball.position[1] + self.game_ball.vector[1]))
         # self.fix_missing_live_blocks()
 
-        if not App.music_changed and (self.player1_block_index >= 0 or self.player2_block_index >= 1): # CHANGE THESE NUMBERS TO ~10
+        if not App.music_changed and (self.player1_block_index >= 1 or self.player2_block_index >= 1): # CHANGE THESE NUMBERS TO ~10
           if __name__ == '__main__':
             self.music_process.terminate()
             # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
