@@ -49,7 +49,7 @@ class App:
 
         if __name__ == '__main__':
           # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
-          self.music_process = Music(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3')
+          self.music_process = Music(os.path.dirname(__file__) + '/assets/background_music_first_half.mp3')
           self.music_process.daemon=True
           self.music_process.start()
         else:
@@ -141,13 +141,13 @@ class App:
                   if square.state == SquareState.LIVE:
                     print("dead square")
                     square.state = SquareState.DEAD
-                    threading.Thread(target=playsound, args=(os.path.dirname(__file__) + 'assets\\non_invincible_block_hit.wav',), daemon=True).start()
+                    threading.Thread(target=playsound, args=(os.path.dirname(__file__) + '/assets/non_invincible_block_hit.wav',), daemon=True).start()
                   elif square.state == SquareState.INVINCIBLE:
-                    threading.Thread(target=playsound, args=(os.path.dirname(__file__) + 'assets\\invincible_block_hit.wav',), daemon=True).start()
+                    threading.Thread(target=playsound, args=(os.path.dirname(__file__) + '/assets/invincible_block_hit.wav',), daemon=True).start()
         for paddle in self.paddles: # collisions are all horizontal
           if self.game_ball.position[0] >= paddle.x - 1 and self.game_ball.position[0] <= paddle.x + 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
             self.game_ball.vector[0] *= -1
-            threading.Thread(target=playsound, args=(os.path.dirname(__file__) + 'asset\\paddle_hit.wav',), daemon=True).start()
+            threading.Thread(target=playsound, args=(os.path.dirname(__file__) + '/assets/paddle_hit.wav',), daemon=True).start()
           # if self.game_ball.position[0] == paddle.x - 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
           #   self.game_ball.vector[0] *= -1
           #   threading.Thread(target=playsound, args=('assets\\paddle_hit.wav',), daemon=True).start()
@@ -245,7 +245,7 @@ class App:
           if __name__ == '__main__':
             self.music_process.terminate()
             # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
-            self.music_process = Music(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3')
+            self.music_process = Music(os.path.dirname(__file__) + '/assets/background_music_second_half.mp3')
             self.music_process.daemon=True
             self.music_process.start()
           # else:
