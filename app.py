@@ -3,6 +3,7 @@ from square import Square
 from square_state import SquareState
 from ball import Ball
 from paddle import Paddle
+from block import Block
 from utils import render_centered_text, horizontal_or_vertical_collision, bfs
 from grid import Grid
 from playsound import playsound
@@ -68,7 +69,7 @@ class App:
         ball_init_x = (self.w // 2) - (BALL_LENGTH // 2)
         ball_init_y = (self.h // 2) - (BALL_LENGTH // 2)
         ball_init_pos = (ball_init_x, ball_init_y)
-        self.game_ball = Ball(1, (10, 10), ball_init_pos, BALL_LENGTH)
+        self.game_ball = Ball(1, (-1, 0), ball_init_pos, BALL_LENGTH)
 
         # Track index of each player in the list of block shapes
         self.player1_block_index = 0
