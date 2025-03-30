@@ -5,7 +5,7 @@ from block import Block
 import math
 
 class Grid:
-    def __init__(self, square_size, height, width, x_pix_offset_left, x_pix_offset_right, y_pix_offset_top, y_pix_offset_bot, app):
+    def __init__(self, square_size, height, width, x_pix_offset_left, y_pix_offset_top, y_pix_offset_bot):
         self.height = height # in terms of grid spaces
         self.width = width
         
@@ -14,7 +14,6 @@ class Grid:
         self.pix_width = width *  square_size
         
         self.x_pix_offset_left = x_pix_offset_left
-        self.x_pix_offset_right = x_pix_offset_right
         self.y_pix_offset_bot = y_pix_offset_bot
         self.y_pix_offset_top = y_pix_offset_top
 
@@ -59,7 +58,7 @@ class Grid:
     #return tuple of x and y on grid coordinates corresponding to pixel x,y
     def _pix_to_grid_space(self, pix_x, pix_y):
         # check pixel is within the grid
-        if (pix_x >= self.x_pix_offset_left and pix_x <= self.x_pix_offset_right and pix_y >= self.y_pix_offset_bot and pix_y <= self.y_pix_offset_top):
+        if (pix_x >= self.x_pix_offset_left and pix_x <= self.x_pix_offset_left + self.pix_width and pix_y >= self.y_pix_offset_bot and pix_y <= self.y_pix_offset_top):
             grid_x = math.floor((pix_x - self.x_pix_offset_left) / self.square_size)
             grid_y = math.floor((pix_y - self.y_pix_offset_bot) / self.square_size)
             return (grid_x, grid_y)
