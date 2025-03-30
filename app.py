@@ -50,13 +50,11 @@ class App:
         #self.music_should_stop = threading.Event()
 
         # if __name__ == '__main__':
-        #   # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
-        # #   self.music_process = Music(os.path.dirname(__file__) + '/assets/background_music_first_half.mp3')
+        #   self.music_process = Music(os.path.dirname(__file__) + '/assets/background_music_first_half.mp3')
         #   self.music_process.daemon=True
         #   self.music_process.start()
         # else:
         #   return
-        #   #Music.run(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3')
 
         # Config game window
         self.w = 192
@@ -273,21 +271,12 @@ class App:
             
         # self.fix_missing_live_blocks()
 
-        # if not App.music_changed and (self.player1_block_index >= 1 or self.player2_block_index >= 1): # CHANGE THESE NUMBERS TO ~10
+        # if not App.music_changed and (self.player1_block_index >= 10 or self.player2_block_index >= 10): # CHANGE THESE NUMBERS TO ~10
         #   if __name__ == '__main__':
         #     self.music_process.terminate()
-        #     # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
         #     self.music_process = Music(os.path.dirname(__file__) + '/assets/background_music_second_half.mp3')
         #     self.music_process.daemon=True
         #     self.music_process.start()
-        #   # else:
-        #   #   Music.run(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3')
-        #   # if __name__ == '__main__':
-        #   #   #self.music_should_stop.set()
-        #   #   self.music_process.terminate()
-        #   #   #self.music_should_stop = threading.Event()
-        #   #   self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3',))
-        #   #   self.music_process.start()
         #   App.music_changed = True
         
         if self.player1_block_index / 10 >= self.game_speed or self.player2_block_index / 10 >= self.game_speed:

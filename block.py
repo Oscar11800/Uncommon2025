@@ -238,7 +238,7 @@ class Block:
                                               self.grid.pix_height - self.grid.y_pix_offset_bot +
                                               (self.grid.square_size * self.squares[2].get_y()))
                 self.squares[3].update(self.x + 2, self.y)
-                self.squares[2].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[3].get_x()),
+                self.squares[3].update_pixels(self.grid.x_pix_offset_left + (self.grid.square_size * self.squares[3].get_x()),
                                               self.grid.pix_height - self.grid.y_pix_offset_bot +
                                               (self.grid.square_size * self.squares[3].get_y()))
                 self.originX = self.x + 1
