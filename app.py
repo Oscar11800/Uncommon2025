@@ -48,14 +48,14 @@ class App:
 
         #self.music_should_stop = threading.Event()
 
-        if __name__ == '__main__':
-          # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
-          self.music_process = Music(os.path.dirname(__file__) + '/assets/background_music_first_half.mp3')
-          self.music_process.daemon=True
-          self.music_process.start()
-        else:
-          return
-          #Music.run(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3')
+        # if __name__ == '__main__':
+        #   # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
+        # #   self.music_process = Music(os.path.dirname(__file__) + '/assets/background_music_first_half.mp3')
+        #   self.music_process.daemon=True
+        #   self.music_process.start()
+        # else:
+        #   return
+        #   #Music.run(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3')
 
         # Config game window
         self.w = 192
@@ -63,7 +63,6 @@ class App:
         
         # Set pixel size of square
         self.square_size = self.w // 25
-        print("Square size:", self.square_size)
         
         # Set grid size in squares
         self.grid_width_in_squares = 6
@@ -215,12 +214,12 @@ class App:
 
     def update(self):
         if(self.curr_frame == 0 and pyxel.btn(pyxel.KEY_Z)):
+            print("GAME START")
             self.game_running = True
-            print("YES")
             self.start_game()
                 
         
-        if self.curr_frame == 0:
+        if self.curr_frame == 0 and self.game_running == True:
         #   self.make_square(0, 0, 1).set_state(SquareState.INVINCIBLE)
         #   self.make_square(1, 0, 1).set_state(SquareState.INVINCIBLE)
         #   self.make_square(2, 0, 1).set_state(SquareState.INVINCIBLE)
@@ -242,29 +241,36 @@ class App:
 
             self.paddles[0].update()
             self.paddles[1].update()
-
+            
+            self.left_live_block.update()
+            self.right_live_block.update()
+            
             # check for collisions
             self.check_collisions()
             # update ball
             self.game_ball.set_position((self.game_ball.position[0] + self.game_ball.vector[0], self.game_ball.position[1] + self.game_ball.vector[1]))
+            
+            if self.curr_frame % 10 == 0:
+                self.left_live_block.move_down()
+                self.right_live_block.move_down()
         # self.fix_missing_live_blocks()
 
-        if not App.music_changed and (self.player1_block_index >= 1 or self.player2_block_index >= 1): # CHANGE THESE NUMBERS TO ~10
-          if __name__ == '__main__':
-            self.music_process.terminate()
-            # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
-            self.music_process = Music(os.path.dirname(__file__) + '/assets/background_music_second_half.mp3')
-            self.music_process.daemon=True
-            self.music_process.start()
-          # else:
-          #   Music.run(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3')
-          # if __name__ == '__main__':
-          #   #self.music_should_stop.set()
-          #   self.music_process.terminate()
-          #   #self.music_should_stop = threading.Event()
-          #   self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3',))
-          #   self.music_process.start()
-          App.music_changed = True
+        # if not App.music_changed and (self.player1_block_index >= 1 or self.player2_block_index >= 1): # CHANGE THESE NUMBERS TO ~10
+        #   if __name__ == '__main__':
+        #     self.music_process.terminate()
+        #     # self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',))
+        #     self.music_process = Music(os.path.dirname(__file__) + '/assets/background_music_second_half.mp3')
+        #     self.music_process.daemon=True
+        #     self.music_process.start()
+        #   # else:
+        #   #   Music.run(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3')
+        #   # if __name__ == '__main__':
+        #   #   #self.music_should_stop.set()
+        #   #   self.music_process.terminate()
+        #   #   #self.music_should_stop = threading.Event()
+        #   #   self.music_process = multiprocessing.Process(target=Music.play, args=(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3',))
+        #   #   self.music_process.start()
+        #   App.music_changed = True
         
         if self.player1_block_index / 10 >= self.game_speed or self.player2_block_index / 10 >= self.game_speed:
           self.game_speed += 1
