@@ -2,7 +2,6 @@ import pyxel
 from enum import Enum
 
 import square
-from grid import Grid
 
 class BlockType(Enum):
     O = 1
@@ -24,7 +23,7 @@ class Block:
         self.type = type
         x = location.x
         y = location.y
-        self.squares = [square.Square(x, y, Grid.SQUARE_SIZE, color)]*4
+        self.squares = [square.Square(x, y, grid.SQUARE_SIZE, color)]*4
         self.rotation_state = 0
         self.is_live = 1
         self.grid = grid
@@ -73,7 +72,7 @@ class Block:
                 self.originY = y
 
         for i in len(self.squares):
-            grid.grid[self.squares[i].getX(), self.squares[i].getY()] = self.squares[i]
+            self.grid[self.squares[i].getX(), self.squares[i].getY()] = self.squares[i]
         
         self.draw()
             
@@ -126,7 +125,7 @@ class Block:
             prev_y = self.squares[i].getY()
             self.squares[i].update(prev_x, prev_y - 1)
 
-            if (Grid[prev_x, prev_y - 1] != None):
+            if (self.grid[prev_x, prev_y - 1] != None):
                 self.is_live = 0
 
     def draw(self):

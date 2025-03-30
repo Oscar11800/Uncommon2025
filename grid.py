@@ -1,12 +1,11 @@
 import pyxel
 from square import Square
 from square import SquareState
-from app import App
 from block import Block
 import math
 
 class Grid:
-    def __init__(self, square_size, height, width, x_pix_offset_left, x_pix_offset_right, y_pix_offset_top, y_pix_offset_bot):
+    def __init__(self, square_size, height, width, x_pix_offset_left, x_pix_offset_right, y_pix_offset_top, y_pix_offset_bot, app):
         self.height = height # in terms of grid spaces
         self.width = width
         
@@ -18,13 +17,15 @@ class Grid:
         self.x_pix_offset_right = x_pix_offset_right
         self.y_pix_offset_bot = y_pix_offset_bot
         self.y_pix_offset_top = y_pix_offset_top
+
+        self.app = app
         
         self.grid = [[]]
         self.init_grid()
     
     def init_grid(self):
-        for i in self.height:
-            for j in self.width:
+        for i in range(self.height):
+            for j in range(self.width):
                 self.grid[i][j] = None
         
     def get_grid(self):
@@ -34,22 +35,22 @@ class Grid:
         self.grid[x][y] = None
 
     def spawn_block(self, index):
-        Block(App.block_list[index], (self.width / 2, self.height - 1), 0, self)
+        Block(self.app.block_list[index], (self.width / 2, self.height - 1), 0, self)
     
     def reinforce_squares(self, x):
         for square in self.grid()[x]:
             square.set_state(SquareState.INVINCIBLE)
     
     def has_live(self):
-        for i in self.height:
-            for j in self.width:
+        for i in range(self.height):
+            for j in range(self.width):
                 if self.grid[i][j].get_state() == SquareState.LIVE:
                     return True
         return False
     
     def check_win(self, win_height):
-        for i in self.height:
-            for j in self.width:
+        for i in range(self.height):
+            for j in range(self.width):
                 if self.grid[i][j].get_state() == SquareState.SET:
                     if i + 1 >= win_height:
                         return True
