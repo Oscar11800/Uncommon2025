@@ -24,8 +24,8 @@ class Grid:
         self.init_grid()
     
     def init_grid(self):
-        for i in self.height:
-            for j in self.width:
+        for i in range(self.height):
+            for j in range(self.width):
                 self.grid[i][j] = None
         
     def get_grid(self):
@@ -42,15 +42,15 @@ class Grid:
             square.set_state(SquareState.INVINCIBLE)
     
     def has_live(self):
-        for i in self.height:
-            for j in self.width:
+        for i in range(self.height):
+            for j in range(self.width):
                 if self.grid[i][j].get_state() == SquareState.LIVE:
                     return True
         return False
     
     def check_win(self, win_height):
-        for i in self.height:
-            for j in self.width:
+        for i in range(self.height):
+            for j in range(self.width):
                 if self.grid[i][j].get_state() == SquareState.SET:
                     if i + 1 >= win_height:
                         return True

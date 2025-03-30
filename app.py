@@ -44,9 +44,9 @@ class App:
         self.platform_r_x = self.w * 0.975 - self.platform_width
         
         # Instantiate grids (TODO: Double check params)
-        self.grid_left = Grid(self.square_size, self.height, self.width, self.platform_l_x, self.w - (self.platform_r_x + self.platform_width), 0, self.platform_height_pix, self)
+        self.grid_left = Grid(self.square_size, self.h, self.w, self.platform_l_x, self.w - (self.platform_r_x + self.platform_width), 0, self.platform_height_pix, self)
         
-        self.grid_right = Grid(self.square_size, self.height, self.width, self.platform_r_x, self.w - (self.platform_l_x + self.platform_width), 0, self.platform_height_pix, self)
+        self.grid_right = Grid(self.square_size, self.h, self.w, self.platform_r_x, self.w - (self.platform_l_x + self.platform_width), 0, self.platform_height_pix, self)
     
         # Instantiate paddles
         self.paddles = [Paddle(self.w,self.h, 1), Paddle(self.w, self.h, 2)]
