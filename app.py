@@ -152,7 +152,8 @@ class App:
     def draw_game(self):
         pyxel.cls(0)
         # Draw background name
-        render_centered_text("TETRISN'T", 8, self.w, self.h)
+        render_centered_text("TETRIS", 4, self.w -16, self.h)
+        render_centered_text("N'T", 6, self.w + 20, self.h)
         # Calculate platform location
         left_start = self.platform_l_x
         right_start = self.platform_r_x
