@@ -23,12 +23,13 @@ class Block:
         self.type = type
         x = location[0]
         y = location[1]
-        u = grid.x_pix_offset_left + (grid.square_size * x)
-        v = grid.pix_height - grid.y_pix_offset_bot + (grid.square_size * v)
-        self.squares = [square.Square(x, y, u, v, grid.square_size, color)]*4
+        pix_x = grid.x_pix_offset_left + (grid.square_size * x)
+        pix_y = grid.pix_height - grid.y_pix_offset_bot + (grid.square_size * pix_y)
+        self.squares = [square.Square(x, y, pix_x, pix_y, grid.square_size, color)]*4
         self.rotation_state = 0
         self.is_live = 1
         self.grid = grid
+        
         match type:
             case BlockType.O:
                 self.squares[1].update(x + 1, y)
