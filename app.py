@@ -216,8 +216,8 @@ class App:
           self.music = threading.Thread(target=App.music, args=(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3',), daemon=True).start()
           App.music_changed = True
         
-        if self.player1_block_index / 10 >= game_speed or self.player2_block_index / 10 >= game_speed:
-          game_speed += 1
+        if self.player1_block_index / 10 >= self.game_speed or self.player2_block_index / 10 >= self.game_speed:
+          self.game_speed += 1
           self.game_ball.accelerate(1)
           Block.blocks_speed += 1
         
