@@ -1,5 +1,4 @@
 import pyxel
-import random
 from square import Square
 from square_state import SquareState
 from ball import Ball
@@ -22,8 +21,6 @@ class App:
     # platform_l_x, platform_r_x, grid_left, game_ball
 
     def __init__(self):
-        self.block_list = random.choices(range(1, 8), k=500) # generate 500 random block types
-
         # Config game window
         self.w = 192
         self.h = 108
