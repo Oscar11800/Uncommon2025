@@ -160,7 +160,7 @@ class App:
           #   threading.Thread(target=playsound, args=('assets\\paddle_hit.wav',), daemon=True).start()
         for i in range(len(active_grid.grid)):
             for j in range(len(active_grid.grid[i])):
-                square = self.grid_left.grid[i][j]
+                square = self.grid_left.grid[i][j] # do we want active_grid instead?
                 if square is not None and square.state == SquareState.DEAD:
                     self.grid_left.destroy_square(i, j)
         if self.game_ball.position[1] <= 0:
@@ -337,10 +337,10 @@ class App:
         # Draw all the squares
         for square in [square for row in self.grid_left.grid for square in row]:
           if square is not None:
-              square.draw(self.grid_left.grid)
+              square.draw(self.grid_left)
         for square in [square for row in self.grid_right.grid for square in row]:
           if square is not None:
-              square.draw(self.grid_right.grid)
+              square.draw(self.grid_right)
         for paddle in self.paddles:
           paddle.draw()
         self.game_ball.draw()
