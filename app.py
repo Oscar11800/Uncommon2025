@@ -36,17 +36,17 @@ class App:
         self.grid_width_in_squares = 6
         self.grid_height_in_squares = 20
         
-        # Set platform dimentions
+        # Set platform dimensions
         self.platform_height_pix = 2
         self.platform_width = self.square_size * self.grid_width_in_squares
         self.platform_height_pix = self.platform_height_pix
         self.platform_l_x = self.w * 0.025
         self.platform_r_x = self.w * 0.975 - self.platform_width
         
-        # Instantiate grids (TODO: Double check params)
-        self.grid_left = Grid(self.square_size, self.h, self.w, self.platform_l_x, self.w - (self.platform_r_x + self.platform_width), 0, self.platform_height_pix, self)
+        # Instantiate grids (TODO: Double check params, may be wrong)
+        self.grid_left = Grid(self.square_size, self.height, self.width, self.platform_l_x, 0, self.platform_height_pix)
         
-        self.grid_right = Grid(self.square_size, self.h, self.w, self.platform_r_x, self.w - (self.platform_l_x + self.platform_width), 0, self.platform_height_pix, self)
+        self.grid_right = Grid(self.square_size, self.height, self.width, self.platform_r_x, 0, self.platform_height_pix)
     
         # Instantiate paddles
         self.paddles = [Paddle(self.w,self.h, 1), Paddle(self.w, self.h, 2)]
@@ -72,7 +72,9 @@ class App:
         self.x = 0
         pyxel.run(self.update, self.draw_game)
     
-    # Check/Fix/Essential Functions
+    def start_game(self):
+        pass
+    # Check/Fix Functions
     def check_collisions(self):
         active_grid = self.grid_left if self.game_ball.position[0] < self.w // 2 else self.grid_right
         min_x, max_x = self.game_ball.position[0], self.game_ball.position[0] + self.game_ball.length
