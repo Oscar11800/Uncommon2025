@@ -46,7 +46,7 @@ class Square:
         color = Colors.PLAYER_1_INNER.value if self.player == 1 else Colors.PLAYER_2_INNER.value
         pyxel.rect(self.pix_x, self.pix_y, self.size, self.size, color)
         # Calculate borders
-        adjacent_squares = calculate_adjacent_squares(self.x, self.y, grid)
+        adjacent_squares = calculate_adjacent_squares(int(self.x), int(self.y), grid)
         border_color = Colors.PLAYER_1_OUTER.value if self.player == 1 else Colors.PLAYER_2_OUTER.value
         # Borders
         if not adjacent_squares[0]:
@@ -94,3 +94,6 @@ class Square:
     
     def get_y(self):
         return self.y
+    
+    def print_square(self):
+        print(f"Grid X: {self.x}\n Grix Y: {self.y}\nPix_x: {self.pix_x}\nPix_y: {self.pix_y}\nSize:{self.size}")

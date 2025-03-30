@@ -139,6 +139,8 @@ class Block:
 
         for current_square in self.squares:
             #self.grid.grid[(int)(self.squares[i-1].get_x())][(int)(self.squares[i-1].get_y())] = self.squares[i-1]
+            current_square.print_square()
+            self.grid.print_grid()
             self.grid.add_square(current_square, (int)(current_square.get_x()), (int)(current_square.get_y()))
         
         self.draw()
@@ -197,7 +199,7 @@ class Block:
 
     def draw(self):
         for sq in self.squares:
-            sq.draw()
+            sq.draw(self.grid.get_grid())
 
     def destroy(self):
         for sq in self.squares:
