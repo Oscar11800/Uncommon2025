@@ -20,8 +20,7 @@ class Ball:
         for i in range(length):
             for j in range(length):
                 self.active_pos_list.append((self.position[0] + (i - 1), self.position[1] + (j - 1)))
-        
-        self.draw()
+      
 
     def draw(self):
         pyxel.rect(self.position[0], self.position[1], Ball.radius, Ball.radius, Ball.color)

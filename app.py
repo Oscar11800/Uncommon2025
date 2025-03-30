@@ -41,9 +41,10 @@ class App:
         self.platform_r_x = self.w * 0.975 - self.platform_width
         
         # Instantiate grids (TODO: Double check params, may be wrong)
-        self.grid_left = Grid(self.square_size, self.grid_height_in_squares, self.grid_width_in_squares, self.platform_l_x, 0, self.platform_height_pix)
+        self.grid_left = Grid(self.square_size, self.grid_height_in_squares, self.grid_width_in_squares, self.platform_l_x, 0, self.platform_height_pix, self)
         
-        self.grid_right = Grid(self.square_size, self.grid_height_in_squares, self.grid_width_in_squares, self.platform_r_x, 0, self.platform_height_pix)
+        self.grid_right = Grid(self.square_size, self.grid_height_in_squares, self.grid_width_in_squares, self.platform_r_x, 0, self.platform_height_pix, self)
+
     
         # Instantiate paddles
         self.paddles = [Paddle(self.w,self.h, 1), Paddle(self.w, self.h, 2)]
@@ -141,9 +142,9 @@ class App:
         x = left_x + square_idx_x * self.square_size
         square = Square(x, y, square_idx_x, square_idx_y, self.square_size, team)
         if team == 1:
-          self.grid_left[square_idx_y][square_idx_x] = square
+          self.grid_left.grid[square_idx_y][square_idx_x] = square
         else:
-          self.grid_right[square_idx_y][square_idx_x] = square
+          self.grid_right.grid[square_idx_y][square_idx_x] = square
         return square
       
     def draw_game(self):
@@ -163,20 +164,20 @@ class App:
         pyxel.rect(right_start+1, self.h - platform_h+1, platform_w - 2, platform_h - 1, 2)
         
         # Remove the top border of the bottom platform if there are other invincible rows
-        if self.grid_left[0][0] is not None and self.grid_left[0][0].state == SquareState.INVINCIBLE:
+        if self.grid_left.grid[0][0] is not None and self.grid_left.grid[0][0].state == SquareState.INVINCIBLE:
             pyxel.rect(left_start + 1, self.h - platform_h, platform_w - 2, 1, 2)
-        if self.grid_right[0][0] is not None and self.grid_right[0][0].state == SquareState.INVINCIBLE:
+        if self.grid_right.grid[0][0] is not None and self.grid_right.grid[0][0].state == SquareState.INVINCIBLE:
             pyxel.rect(right_start + 1, self.h - platform_h, platform_w - 2, 1, 2)
             
         # Draw all the squares
-        for square in [square for row in self.grid_left for square in row]:
+        for square in [square for row in self.grid_left.grid for square in row]:
           if square is not None:
-              square.draw(self.grid_left)
-        for square in [square for row in self.grid_right for square in row]:
+              square.draw(self.grid_left.grid)
+        for square in [square for row in self.grid_right.grid for square in row]:
           if square is not None:
-              square.draw(self.grid_right)
+              square.draw(self.grid_right.grid)
         for paddle in self.paddles:
           paddle.draw()
-
+        self.game_ball.draw()
 App()
 

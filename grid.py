@@ -20,8 +20,8 @@ class Grid:
         self.y_pix_offset_bot = y_pix_offset_bot
         self.y_pix_offset_top = y_pix_offset_top
         
-        self.grid = [[]]
-        self.init_grid()
+        self.grid = [[None] * width for _ in range(height)] # 2D list of squares
+        # self.init_grid()
     
     def init_grid(self):
         for i in range(self.height):
