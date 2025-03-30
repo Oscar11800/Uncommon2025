@@ -40,6 +40,9 @@ class Grid:
     def spawn_block(self, index):
         return Block(Grid.block_list[index], (self.width / 2, self.height - 1), 0, self)
     
+    def add_square(self, square, x, y):
+        self.grid[x][y] = square
+        
     def reinforce_squares(self, x):
         for square in self.grid()[x]:
             square.set_state(SquareState.INVINCIBLE)
@@ -47,7 +50,7 @@ class Grid:
     def has_live(self):
         for i in range(self.height):
             for j in range(self.width):
-                if self.grid[i][j].get_state() == SquareState.LIVE:
+                if self.grid[i][j] is not None and self.grid[i][j].get_state() == SquareState.LIVE:
                     return True
         return False
     

@@ -4,14 +4,14 @@ from enum import Enum
 from square_state import SquareState
 
 class Colors(Enum):
-    TEAM_1_INNER = 5
-    TEAM_1_OUTER = 4
-    TEAM_2_INNER = 7
-    TEAM_2_OUTER = 6
+    PLAYER_1_INNER = 5
+    PLAYER_1_OUTER = 4
+    PLAYER_2_INNER = 7
+    PLAYER_2_OUTER = 6
 
 # A square is always a unit size in terms of the grid
 class Square:
-    def __init__(self, x, y, u, v, size, team):
+    def __init__(self, x, y, u, v, size, player):
         # pixel coordinates
         self.x = x
         self.y = y
@@ -21,7 +21,7 @@ class Square:
         # pixel size
         self.size = size # size is in terms of pixels
         self.state = SquareState.LIVE
-        self.team = team
+        self.player = player
         
     def draw_invincible(self,grid):
         COLOR_INNER = 2
@@ -43,11 +43,11 @@ class Square:
     def draw(self, grid):
         if self.state == SquareState.INVINCIBLE:
             return self.draw_invincible(grid)
-        color = Colors.TEAM_1_INNER.value if self.team == 1 else Colors.TEAM_2_INNER.value
+        color = Colors.PLAYER_1_INNER.value if self.player == 1 else Colors.PLAYER_2_INNER.value
         pyxel.rect(self.x, self.y, self.size, self.size, color)
         # Calculate borders
         adjacent_squares = calculate_adjacent_squares(self.u, self.v, grid)
-        border_color = Colors.TEAM_1_OUTER.value if self.team == 1 else Colors.TEAM_2_OUTER.value
+        border_color = Colors.PLAYER_1_OUTER.value if self.player == 1 else Colors.PLAYER_2_OUTER.value
         # Borders
         if not adjacent_squares[0]:
             pyxel.rect(self.x, self.y, self.size, 1, border_color)
