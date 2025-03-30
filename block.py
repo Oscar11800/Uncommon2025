@@ -137,11 +137,12 @@ class Block:
                 self.originX = x + 1
                 self.originY = y
 
-        for i in range(len(self.squares)):
-            self.grid.grid[(int)(self.squares[i-1].get_x())][(int)(self.squares[i-1].get_y())] = self.squares[i-1]
+        for current_square in self.squares:
+            #self.grid.grid[(int)(self.squares[i-1].get_x())][(int)(self.squares[i-1].get_y())] = self.squares[i-1]
+            self.grid.add_square(current_square, (int)(current_square.get_x()), (int)(current_square.get_y()))
         
         self.draw()
-            
+
     def _rotate_helper(self, x, y, s):
         x -= self.originX
         y -= self.originY
@@ -195,12 +196,12 @@ class Block:
                 self.is_live = 0
 
     def draw(self):
-        for i in len(self.squares):
-            self.squares[i].draw()
+        for sq in self.squares:
+            sq.draw()
 
     def destroy(self):
-        for i in len(self.squares):
-            self.squares[i].destroy()
+        for sq in self.squares:
+            sq.destroy()
 
     def slide(self, direction):
         if not self.is_live:
