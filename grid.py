@@ -50,7 +50,7 @@ class Grid:
     def has_live(self):
         for i in range(self.height):
             for j in range(self.width):
-                if self.grid[i][j].get_state() == SquareState.LIVE:
+                if self.grid[i][j] is not None and self.grid[i][j].get_state() == SquareState.LIVE:
                     return True
         return False
     

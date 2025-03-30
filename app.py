@@ -7,6 +7,7 @@ from utils import render_centered_text, horizontal_or_vertical_collision, bfs
 from grid import Grid
 from playsound import playsound
 import threading
+import os
 import time
 
 # Game Settings (Currently dummy values)
@@ -19,9 +20,19 @@ BALL_LENGTH = 2
 # players (pong paddles)
 
 class App:
+    # Game Object List
+    # w = width, h = height, square_size, grid_width_in_squares, platform_height, platform_width,
+    # platform_l_x, platform_r_x, grid_left, game_ball
+
+    def music(sound):
+        while True:
+          playsound(sound)
+
     def __init__(self):
         # avoid delays on first sound play
-        threading.Thread(target=playsound, args=('assets\\silent_quarter-second.wav',), daemon=True).start()
+        #threading.Thread(target=playsound, args=('assets\\silent_quarter-second.wav',), daemon=True).start()
+
+        self.music = threading.Thread(target=App.music, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',), daemon=True).start()
 
         # Config game window
         self.w = 192
@@ -106,6 +117,8 @@ class App:
                     print("dead square")
                     square.state = SquareState.DEAD
                     threading.Thread(target=playsound, args=('assets\\non_invincible_block_hit.wav',), daemon=True).start()
+                  elif square.state == SquareState.INVINCIBLE:
+                    threading.Thread(target=playsound, args=('assets\\invincible_block_hit.wav',), daemon=True).start()
         for paddle in self.paddles: # collisions are all horizontal
            if self.game_ball.position[0] == paddle.x + 1 and self.game_ball.position[1] >= paddle.bottomY and self.game_ball.position[1] <= paddle.bottomY + Paddle.height:
               self.game_ball.vector[0] *= -1
@@ -151,8 +164,10 @@ class App:
     def fix_missing_live_blocks(self): # checks if either grid is missing a live block and respawns one if so
         if not self.grid_left.has_live():
           self.grid_left.spawn_block(self.player1_block_index)
+          self.player1_block_index += 1
         if not self.grid_right.has_live():
           self.grid_right.spawn_block(self.player2_block_index)
+          self.player2_block_index += 1
 
     def update(self):
         if(self.curr_frame == 0 and pyxel.btn(pyxel.KEY_Z)):
@@ -174,6 +189,7 @@ class App:
           self.make_square(0, 1, 1)
           self.make_square(2, 0, 2)
           self.game_ball.set_vector([1, 0])
+          #threading.Thread(target=playsound, args=('assets\\make_invincible_line.wav',), daemon=True).start()
           
         if(self.game_running):
             self.curr_frame = self.curr_frame + 1
@@ -185,6 +201,11 @@ class App:
             self.check_collisions()
             # update ball
             self.game_ball.set_position((self.game_ball.position[0] + self.game_ball.vector[0], self.game_ball.position[1] + self.game_ball.vector[1]))
+        self.fix_missing_live_blocks()
+
+        if self.player1_block_index >= 1 or self.player2_block_index >= 1:
+          self.music.join()
+          self.music = threading.Thread(target=App.music, args=(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3',), daemon=True).start()
         
     def draw(self):
         pyxel.cls(0)
