@@ -23,6 +23,7 @@ class App:
     # Game Object List
     # w = width, h = height, square_size, grid_width_in_squares, platform_height, platform_width,
     # platform_l_x, platform_r_x, grid_left, game_ball
+    music_changed = False
 
     def music(sound):
         while True:
@@ -31,6 +32,8 @@ class App:
     def __init__(self):
         # avoid delays on first sound play
         #threading.Thread(target=playsound, args=('assets\\silent_quarter-second.wav',), daemon=True).start()
+
+        self.game_speed = 1
 
         self.music = threading.Thread(target=App.music, args=(os.path.dirname(__file__) + '\\assets\\background_music_first_half.mp3',), daemon=True).start()
 
@@ -208,9 +211,15 @@ class App:
             self.game_ball.set_position((self.game_ball.position[0] + self.game_ball.vector[0], self.game_ball.position[1] + self.game_ball.vector[1]))
         # self.fix_missing_live_blocks()
 
-        if self.player1_block_index >= 1 or self.player2_block_index >= 1:
+        if not App.music_changed and (self.player1_block_index >= 1 or self.player2_block_index >= 1): # CHANGE THESE NUMBERS TO ~10
           self.music.join()
           self.music = threading.Thread(target=App.music, args=(os.path.dirname(__file__) + '\\assets\\background_music_second_half.mp3',), daemon=True).start()
+          App.music_changed = True
+        
+        if self.player1_block_index / 10 >= game_speed or self.player2_block_index / 10 >= game_speed:
+          game_speed += 1
+          self.game_ball.accelerate(1)
+          Block.blocks_speed += 1
         
     def draw(self):
         pyxel.cls(0)
