@@ -115,17 +115,16 @@ class App:
 
     # Update/Rendering
     def update(self):
-       pass
-        # if self.x == 0:
-        #   self.make_square(0, 0, 1).set_state(SquareState.INVINCIBLE)
-        #   self.make_square(1, 0, 1).set_state(SquareState.INVINCIBLE)
-        #   self.make_square(2, 0, 1).set_state(SquareState.INVINCIBLE)
-        #   self.make_square(3, 0, 1).set_state(SquareState.INVINCIBLE)
-        #   self.make_square(4, 0, 1).set_state(SquareState.INVINCIBLE)
-        #   self.make_square(5, 0, 1).set_state(SquareState.INVINCIBLE)
-        #   self.make_square(0, 1, 1)
-        #   self.make_square(2, 0, 2)
-        # self.x = self.x + 1
+        if self.x == 0:
+          self.make_square(0, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(1, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(2, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(3, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(4, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(5, 0, 1).set_state(SquareState.INVINCIBLE)
+          self.make_square(0, 1, 1)
+          self.make_square(2, 0, 2)
+        self.x = self.x + 1
         
     def draw(self):
         pyxel.cls(0)
