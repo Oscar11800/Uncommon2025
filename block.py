@@ -138,8 +138,8 @@ class Block:
                 self.originY = y
 
         for current_square in self.squares:
-            #self.grid.grid[(int)(self.squares[i-1].get_x())][(int)(self.squares[i-1].get_y())] = self.squares[i-1]
-            self.grid.add_square(current_square, (int)(current_square.get_x()), (int)(current_square.get_y()))
+            print(self.grid.width)
+            self.grid.add_square(current_square, (int)(current_square.get_y()), (int)(current_square.get_y()))
         
         self.draw()
 
