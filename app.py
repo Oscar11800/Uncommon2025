@@ -7,6 +7,7 @@ from utils import render_centered_text, horizontal_or_vertical_collision
 from grid import Grid
 from playsound import playsound
 import threading
+import time
 
 # Game Settings (Currently dummy values)
 WINNING_HEIGHT = 100
@@ -18,10 +19,6 @@ BALL_LENGTH = 2
 # players (pong paddles)
 
 class App:
-    # Game Object List
-    # w = width, h = height, square_size, grid_width_in_squares, platform_height, platform_width,
-    # platform_l_x, platform_r_x, grid_left, game_ball
-
     def __init__(self):
         # avoid delays on first sound play
         threading.Thread(target=playsound, args=('assets\\silent_quarter-second.wav',), daemon=True).start()
@@ -71,11 +68,17 @@ class App:
           0xF2F2F2, 0x1F4283, 0x226CE0, 
           0x853D3B, 0xEF6351, 0x2D283E
         ])
-        self.x = 0
+        self.curr_frame = 0
+        
+        self.game_running = False
+        
         pyxel.run(self.update, self.draw_game)
     
     def start_game(self):
-        pass
+        self.game_running = False
+        self.start_time = time.time()
+        
+    
     # Check/Fix Functions
     def check_collisions(self):
         active_grid = self.grid_left if self.game_ball.position[0] < self.w // 2 else self.grid_right
@@ -124,14 +127,17 @@ class App:
                   
     def check_setblocks(self): # TO-DO: convert live blocks 
        pass
+   
     def player_wins(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
        pyxel.text(0, 0, "PLAYER {winning_player} WINS!")
        pyxel.quit()
+       
     def check_win_con(self):
         if self.grid_left.check_win(WINNING_HEIGHT):
            self.player_wins(1)
         elif self.grid_right.check_win(WINNING_HEIGHT):
            self.player_wins(2)
+           
     def fix_missing_live_blocks(self): # checks if either grid is missing a live block and respawns one if so
         if not self.grid_left.has_live():
           self.grid_left.spawn_block(self.player1_block_index)
@@ -140,7 +146,13 @@ class App:
 
     # Update/Rendering
     def update(self):
-        if self.x == 0:
+        if(self.curr_frame == 0 and pyxel.btn(pyxel.KEY_Z)):
+            self.game_running = True
+            print("YES")
+            self.start_game()
+                
+        
+        if self.curr_frame == 0:
           self.make_square(0, 0, 1).set_state(SquareState.INVINCIBLE)
           self.make_square(1, 0, 1).set_state(SquareState.INVINCIBLE)
           self.make_square(2, 0, 1).set_state(SquareState.INVINCIBLE)
@@ -153,19 +165,21 @@ class App:
           self.make_square(0, 1, 1)
           self.make_square(2, 0, 2)
           self.game_ball.set_vector([1, 0])
-        self.x = self.x + 1
+          
+        if(self.game_running):
+            self.curr_frame = self.curr_frame + 1
 
-        self.paddles[0].update()
-        self.paddles[1].update()
+            self.paddles[0].update()
+            self.paddles[1].update()
 
-        # check for collisions
-        self.check_collisions()
-        # update ball
-        self.game_ball.set_position((self.game_ball.position[0] + self.game_ball.vector[0], self.game_ball.position[1] + self.game_ball.vector[1]))
+            # check for collisions
+            self.check_collisions()
+            # update ball
+            self.game_ball.set_position((self.game_ball.position[0] + self.game_ball.vector[0], self.game_ball.position[1] + self.game_ball.vector[1]))
         
     def draw(self):
         pyxel.cls(0)
-        pyxel.rect(self.x, 0, 8, 8, 9)
+        pyxel.rect(self.curr_frame, 0, 8, 8, 9)
     
     # Team should be 1 if left, 2 if right
     # Number placement is such that 
@@ -187,8 +201,12 @@ class App:
     def draw_game(self):
         pyxel.cls(0)
         # Draw background name
-        render_centered_text("TETRIS", 4, self.w -16, self.h)
-        render_centered_text("N'T", 6, self.w + 20, self.h)
+        render_centered_text("TETRIS", 4, self.w -14, self.h)
+        render_centered_text("N'T", 6, self.w + 22, self.h)
+        
+        if self.game_running:
+            pyxel.text(22 *pyxel.FONT_WIDTH, (self.h - 100) //2, str(round(time.time() - self.start_time, 2)), 1)
+
         # Calculate platform location
         left_start = self.platform_l_x
         right_start = self.platform_r_x
