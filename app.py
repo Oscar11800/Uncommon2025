@@ -190,11 +190,10 @@ class App:
      while q:
          row, col = q.popleft()
          directions = [[1,0],[-1,0],[0,1],[0,-1]]
-
          for dr, dc in directions:
              r, c = row + dr, col + dc
              if 0 <= r < rows and 0 <= c < cols and (grid.grid[r][c] is not None)  and (r, c) not in visited:
-                 if(grid.grid[r][c].get_state() == 1):
+                 if(grid.grid[r][c].get_state() == 1 and grid.grid[row][col].get_state() == 0):
                     grid.grid[r][c].set_state(0)
                  q.append((r, c))
                  visited.add((r, c))
