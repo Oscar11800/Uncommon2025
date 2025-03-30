@@ -53,7 +53,7 @@ class App:
         self.platform_l_x = self.w * 0.025
         self.platform_r_x = self.w * 0.975 - self.platform_width
         
-        # Instantiate grids (TODO: Double check params, may be wrong)
+        # Instantiate grids (TO-DO: Double check params, may be wrong)
         self.grid_left = Grid(self.square_size, self.grid_height_in_squares, self.grid_width_in_squares, self.platform_l_x, 0, self.platform_height_pix)
         
         self.grid_right = Grid(self.square_size, self.grid_height_in_squares, self.grid_width_in_squares, self.platform_r_x, 0, self.platform_height_pix)
@@ -156,9 +156,9 @@ class App:
         
                
    
-    def end_game(self, winning_player): # TO-DO: DUMMY IMPLEMENTATION
+    def end_game(self, winning_player): # TO-DO
        self.game_running = False
-       pyxel.text(self.h // 2, self.w // 2, "PLAYER {winning_player} WINS!", )
+       pyxel.text(self.h // 2, self.w // 2, "PLAYER {winning_player} WINS!", winning_player)
        
     def check_win_con(self):
         if self.grid_left.check_win(WINNING_HEIGHT):
