@@ -5,8 +5,8 @@ BALL_LENGTH = 2
 
 class Ball:
     speed = 0
-    vector = (0, 0)
-    position = (0, 0) # refers to top left corner of ball
+    vector = [0, 0]
+    position = [0, 0] # refers to top left corner of ball
     length = 0
     active_pos_list = []
     radius = 1
@@ -23,6 +23,7 @@ class Ball:
 
 
     def draw(self):
+        # print(self.position)
         pyxel.rect(self.position[0], self.position[1], Ball.radius, Ball.radius, Ball.color)
 
     def set_speed(self, speed):
